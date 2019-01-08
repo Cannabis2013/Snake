@@ -3,6 +3,8 @@ package baseKit;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
@@ -28,6 +30,8 @@ public class MHWidget extends MHObject{
 		mainScene = new Scene(new Pane());
 		painter = drawBoard.getGraphicsContext2D();
 		backgroundImage = null;
+		childrens = new ArrayList<>();
+		P = null;
 		
 		paintUpdate();
 		setupInputEventHandlers();
@@ -35,12 +39,15 @@ public class MHWidget extends MHObject{
 		defaultLocation();
 	}
 	
-	public MHWidget(MHObject parent) {
-		super(parent);
+	public MHWidget(MHWidget parent) {
+		super();
 		drawBoard = new Canvas();
 		mainScene = new Scene(new Pane());
 		painter = drawBoard.getGraphicsContext2D();
 		backgroundImage = null;
+		childrens = new ArrayList<>();
+		P = parent;
+		P.addChild(this);
 		
 		paintUpdate();
 		setupInputEventHandlers();
@@ -54,6 +61,7 @@ public class MHWidget extends MHObject{
 		mainScene = new Scene(new Pane());
 		painter = drawBoard.getGraphicsContext2D();
 		backgroundImage = null;
+		childrens = new ArrayList<>();
 		
 		setLayout(layout);
 		setupResizeEvents();
@@ -138,6 +146,7 @@ public class MHWidget extends MHObject{
 		painter.clearRect(0, 0, Width(), Height());
 		if(backgroundImage != null)
 			painter.drawImage(backgroundImage, 0, 0, Width(), Height());
+		
 	}
 
 	protected void paintUpdate()
@@ -215,11 +224,53 @@ public class MHWidget extends MHObject{
 	}
 	
 	/*
+	 * Parent section
+	 */
+	
+	public boolean HasParent()
+	{
+		if(P != null)
+			return true;
+		else
+			return false;
+	}
+	
+	public void setParent(MHWidget parent)
+	{
+		P = parent;
+	}
+	
+	public MHWidget Parent()
+	{
+		return P;
+	}
+	
+	public void addChild(MHWidget child)
+	{
+		if(child != null)
+			childrens.add(child);
+		else
+			throw new IllegalArgumentException();
+	}
+	
+	public MHObject ChildAt(int index)
+	{
+		if(childrens.size() > index && index >= 0)
+			return childrens.get(index);
+		else
+			return null;
+	}
+	
+	
+	/*
 	 * Draw related section.
 	 */
 	
 	public void drawEvent()
 	{}
+	
+	public void draw()
+	{};
 	
 	/*
 	 * Setup event methods.
@@ -335,4 +386,6 @@ public class MHWidget extends MHObject{
 	private myStage mainStage = new myStage();
 	private Scene mainScene;
 	protected Image backgroundImage;
+	private List<MHWidget> childrens;
+	protected MHWidget P;
 }

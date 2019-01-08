@@ -1,9 +1,9 @@
 package guiExample;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import baseKit.PointD;
-import baseKit.MHObject;
 import baseKit.MHWidget;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
@@ -11,12 +11,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 
 public class SnakeObject extends MHWidget {
-	public SnakeObject(MHObject parent) {
+	public SnakeObject(MHWidget parent) {
 		super(parent);
 		bodyCoordinates = new ArrayList<PointD>();
-		headRadius = 40;
+		headRadius = 20;
 		currentDirection = direction.right;
-		speed = 40;
+		speed = 20;
 		turn = 0;
 	}
 	
@@ -76,13 +76,8 @@ public class SnakeObject extends MHWidget {
 				dy *= -1;
 			turn -= dy;
 		}
-		if(CheckifDead(nPos))
-		{
-			
-			print("Collusion");
-			dead = true;
-		}
-		else if(nPos.X() > Parent().Width())
+		
+		if(nPos.X() > Parent().Width())
 		{
 			nPos.setX(0);
 		}
@@ -96,13 +91,21 @@ public class SnakeObject extends MHWidget {
 		}
 		else if(nPos.Y() < 0)
 		{
-			nPos.setY(Parent().Height() - headRadius);
+			nPos.setY(Parent().Height() - headRadius - 1);
 		}
+		
+		print(String.format("Snake x : %1$,.2f Snake y : %2$,.2f", nPos.X(),nPos.Y()));
 	
 		bodyCoordinates.add(nPos);
 		if(lenght < 0)
 			bodyCoordinates.remove(0);
 		lenght--;
+		
+		if(CheckifDead(nPos))
+		{
+			print("Collusion");
+			dead = true;
+		}
 	}
 	
 	public void setLenght(int l)
@@ -110,11 +113,11 @@ public class SnakeObject extends MHWidget {
 		lenght = l;
 	}
 	
-	public boolean CheckifDead(PointD pos)
+	private boolean CheckifDead(PointD pos)
 	{
 		
 		PointD tempPos = new PointD(pos.X(),pos.Y());
-		/*
+		
 		if(currentDirection == direction.up)
 			tempPos.decrementY(headRadius);
 		else if(currentDirection == direction.down)
@@ -123,7 +126,8 @@ public class SnakeObject extends MHWidget {
 			tempPos.decrementX(headRadius);
 		else
 			tempPos.incrementX(headRadius);
-		*/
+		
+		
 		for (int i = bodyCoordinates.size() - 2;i >= 0;i--) {
 			PointD pointD = bodyCoordinates.get(i);
 			if(tempPos.Equals(pointD))
@@ -186,7 +190,6 @@ public class SnakeObject extends MHWidget {
 		if(bodyCoordinates.isEmpty())
 			return;
 		paintBody();
-		paintHead();
 	}
 	
 	private void paintHead()
@@ -215,7 +218,7 @@ public class SnakeObject extends MHWidget {
 	{
 		return (MHWidget) P;
 	}
-	private int lenght = 25;
+	private int lenght = 10;
 	public enum direction{up, down, left, right};
 	private direction currentDirection;
 	private List<PointD> bodyCoordinates;

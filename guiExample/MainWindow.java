@@ -1,24 +1,28 @@
 package guiExample;
 
 
+import java.awt.Point;
+
 import baseKit.MHWidget;
 import javafx.application.Platform;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 public class MainWindow extends MHWidget{
-	public  MainWindow() 
+	public  MainWindow(int n, int m) 
 	{
 		super();
 		pWorker = new PaintWorker(this);
-		animator = new ObjectAnimator(this);
-		snake = new SnakeObject(this);
-		
+		gController = new GameController(this);
+		dim = new Point(n,m);
 	}
 	
 	public void initializeSnakePosition(double x, double y)
 	{
-		snake.setPosition(x, y);
+		SnakeObject snake = new SnakeObject(this);
+		snake.setPosition(Width()/2, Height()/2);
+		snake.setObjectName("Snake");
+		gController.addObject(snake);
 	}
 	
 	/*
@@ -28,30 +32,16 @@ public class MainWindow extends MHWidget{
 	@Override
 	protected void keyPressEvent(KeyEvent event) 
 	{
-		if(event.getCode() == KeyCode.Q)
-			animator.Stop();
-		else if(event.getCode() == KeyCode.ENTER && !animator.IsWorking())
-		{
-			animator = new ObjectAnimator(this, snake);
-			animator.start();
-		}
-		else if(event.getCode() == KeyCode.R)
-		{
-			animator.Stop();
-			
-			snake = new SnakeObject(this);
-			snake.setPosition(Width()/2, Height()/2);
-			
-			animator = new ObjectAnimator(this, snake);
-		}
-		else
-			snake.setCurrentDirection(event.getCode());
+		if(event.getCode() == KeyCode.ESCAPE)
+			Platform.exit();
+		gController.keyEvent(event.getCode());
 	}
 	
-	private void draw()
+	public void draw()
 	{
 		paintClear();
-		snake.draw();
+		gController.drawLevel();
+		gController.drawObjects();
 		paintUpdate();
 	}
 	
@@ -71,7 +61,13 @@ public class MainWindow extends MHWidget{
 		pWorker.start();
 	}
 	
-	private ObjectAnimator animator;
+	public Point gridDimension()
+	{
+		return dim;
+	}
+	
+	private GameController gController;
 	private PaintWorker pWorker;
 	private SnakeObject snake;
+	private Point dim;
 }

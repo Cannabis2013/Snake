@@ -1,5 +1,6 @@
 package guiExample;
 
+import baseKit.MHObject;
 import baseKit.MHWidget;
 
 public class Worker extends Thread {
@@ -12,6 +13,8 @@ public class Worker extends Thread {
 	public Worker(MHWidget parent) {
 		Parent = parent;
 	}
+	public Worker()
+	{}
 	
 	public void setPollRate(int rate)
 	{

@@ -1,16 +1,12 @@
 package guiExample;
-import baseKit.MHWidget;
-import guiExample.SnakeObject.direction;
 
 public class ObjectAnimator extends Worker {
 
-	public ObjectAnimator(MHWidget parent, SnakeObject obj) {
-		super(parent);
-		
+	public ObjectAnimator(GameController g,SnakeObject obj) {
 		target = obj;
+		gCon = g;
 	}
-	public ObjectAnimator(MHWidget parent) {
-		super(parent);
+	public ObjectAnimator() {
 		
 		target = null;
 	}
@@ -38,6 +34,8 @@ public class ObjectAnimator extends Worker {
 			double d = target.Speed(); 
 			target.move(d);
 			
+			gCon.moveEvent();
+			
 			try {
 				sleep(100);
 			} catch (InterruptedException e) {
@@ -49,5 +47,6 @@ public class ObjectAnimator extends Worker {
 	
 	@SuppressWarnings("unused")
 	private SnakeObject target;
+	private GameController gCon;
 	private boolean isBusy = false;
 }

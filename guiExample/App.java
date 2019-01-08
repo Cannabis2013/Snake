@@ -1,5 +1,7 @@
 package guiExample;
 
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
@@ -9,29 +11,29 @@ import javafx.stage.Stage;
 
 
 public class App extends Application {
-
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
 		/*
 		 * Main thread
 		 */
+		List<String> parameters = getParameters().getRaw();
 		
-		Screen mainScreen = Screen.getPrimary();
-		Rectangle2D bounds = mainScreen.getBounds();
+		String arg1 = parameters.get(0);
+		String arg2 = parameters.get(1);
 		
-		MainWindow mW = new MainWindow();
-		if(bounds.getWidth() <= 1280 && bounds.getHeight() <= 800)
-			mW.setFixedSize(bounds.getWidth(), bounds.getHeight());
-		else
-			mW.setFixedSize(1280, 800);
+		int n = Integer.parseInt(arg1), m = Integer.parseInt(arg2);
 		
-		mW.initializeSnakePosition(20, 30);
+		MainWindow mW = new MainWindow(n,m);
+		mW.setFixedSize(20*30, 20*40);
+		
+		mW.initializeSnakePosition(n/2, m/2);
 		mW.show();
 		}
-	public void exec()
+	public void exec(String[] args)
 	{
-		launch("");
+		launch(args);
 	}
 	
 	public void exit()
@@ -39,13 +41,11 @@ public class App extends Application {
 		Platform.exit();
 	}
 	
-	public static void print(double n)
-	{
-		System.out.println(n);
-	}
-	
 	public static void main(String[] args) {
+		
+		
+		int n = Integer.parseInt(args[0]), m = Integer.parseInt(args[1]);
 		App a = new App();
-		a.exec();
+		a.exec(args);
 	}
 }
