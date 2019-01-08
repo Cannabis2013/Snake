@@ -21,7 +21,6 @@ public class App extends Application {
 		Rectangle2D bounds = mainScreen.getBounds();
 		
 		MainWindow mW = new MainWindow();
-		mW.setBackground(new Image("Lars.png"));
 		if(bounds.getWidth() <= 1280 && bounds.getHeight() <= 800)
 			mW.setFixedSize(bounds.getWidth(), bounds.getHeight());
 		else
