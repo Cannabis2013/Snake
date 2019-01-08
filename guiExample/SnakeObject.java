@@ -18,6 +18,7 @@ public class SnakeObject extends MHObject {
 		headRadius = 40;
 		currentDirection = direction.right;
 		speed = 200;
+		turn = 0;
 	}
 	
 	public void reBirth()
@@ -25,7 +26,7 @@ public class SnakeObject extends MHObject {
 		bodyCoordinates.clear();
 	}
 	
-	// Postion section
+	// Position section
 	
 	public void setPosition(double xPos, double yPos)
 	{
@@ -47,12 +48,22 @@ public class SnakeObject extends MHObject {
 	
 	public void move(double dx, double dy)
 	{
+		if(dead)
+			return;
+		
 		PointD cPos = Position(),
 				nPos = new PointD(cPos.X() + dx,cPos.Y() + dy);
 		
-		if(isDead(nPos))
+		if(dx != 0)
+			turn -= dx;
+		else if(dy != 0)
+			turn -= dy;
+		print(String.format(format, args));
+		if(CheckifDead(nPos))
 		{
+			
 			print("Collusion");
+			dead = true;
 		}
 		else
 		{
@@ -63,7 +74,7 @@ public class SnakeObject extends MHObject {
 		}
 	}
 	
-	public boolean isDead(PointD pos)
+	public boolean CheckifDead(PointD pos)
 	{
 		
 		PointD tempPos = new PointD(pos.X(),pos.Y());
@@ -100,7 +111,10 @@ public class SnakeObject extends MHObject {
 			return;
 		else if(CurrentDirection() == direction.down && key == KeyCode.UP)
 			return;
+		else if(turn > 0)
+			return;
 		
+		turn = headRadius;
 		
 		if(key == KeyCode.LEFT)
 			currentDirection = direction.left;
@@ -170,4 +184,6 @@ public class SnakeObject extends MHObject {
 	private direction currentDirection;
 	private List<PointD> bodyCoordinates;
 	private double headRadius, speed;
+	private double turn;
+	private boolean dead = false;
 }

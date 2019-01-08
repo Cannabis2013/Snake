@@ -14,7 +14,7 @@ public class MainWindow extends MHWidget{
 		super();
 		wrkController = new WorkerController(this);
 		pWorker = new PaintWorker(this);
-		wrkController.setPollRate(30); // Polling rate in Hertz
+		wrkController.setPollRate(10); // Polling rate in Hertz
 		animator = new ObjectAnimator(this);
 		
 		snake = new SnakeObject(this);
@@ -33,12 +33,21 @@ public class MainWindow extends MHWidget{
 	@Override
 	protected void keyPressEvent(KeyEvent event) 
 	{
-		if(event.getCode() == KeyCode.ESCAPE)
+		if(event.getCode() == KeyCode.Q)
 			animator.Stop();
 		else if(event.getCode() == KeyCode.ENTER && !animator.IsWorking())
 		{
 			animator = new ObjectAnimator(this, snake);
 			animator.start();
+		}
+		else if(event.getCode() == KeyCode.R)
+		{
+			animator.Stop();
+			
+			snake = new SnakeObject(this);
+			snake.setPosition(Width()/2, Height()/2);
+			
+			animator = new ObjectAnimator(this, snake);
 		}
 		
 		
