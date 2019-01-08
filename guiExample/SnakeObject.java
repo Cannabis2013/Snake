@@ -3,7 +3,6 @@ package guiExample;
 import java.util.ArrayList;
 import java.util.List;
 import baseKit.PointD;
-import guiExample.SnakeObject.direction;
 import baseKit.MHObject;
 import baseKit.MHWidget;
 import javafx.scene.canvas.GraphicsContext;
@@ -11,13 +10,13 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 
-public class SnakeObject extends MHObject {
+public class SnakeObject extends MHWidget {
 	public SnakeObject(MHObject parent) {
 		super(parent);
 		bodyCoordinates = new ArrayList<PointD>();
 		headRadius = 40;
 		currentDirection = direction.right;
-		speed = 200;
+		speed = 40;
 		turn = 0;
 	}
 	
@@ -46,48 +45,85 @@ public class SnakeObject extends MHObject {
 	 * - Speed
 	 */
 	
-	public void move(double dx, double dy)
+	public void move(double d)
 	{
+		double dx = 0, dy = 0;
+		
+		if(CurrentDirection() == direction.right)
+			dx = d;
+		else if(CurrentDirection() == direction.left)
+			dx = -d;
+		else if(CurrentDirection() == direction.up)
+			dy = -d;
+		else if(CurrentDirection() == direction.down)
+			dy = d;
+		
 		if(dead)
 			return;
 		
 		PointD cPos = Position(),
 				nPos = new PointD(cPos.X() + dx,cPos.Y() + dy);
 		
-		if(dx != 0)
+		if(dx != 0 && turn > 0)
+		{
+			if(dx < 0)
+				dx *= -1;
 			turn -= dx;
-		else if(dy != 0)
+		}
+		else if(dy != 0 && turn > 0)
+		{
+			if(dy < 0)
+				dy *= -1;
 			turn -= dy;
-		print(String.format(format, args));
+		}
 		if(CheckifDead(nPos))
 		{
 			
 			print("Collusion");
 			dead = true;
 		}
-		else
+		else if(nPos.X() > Parent().Width())
 		{
-			bodyCoordinates.add(nPos);
-			if(lenght < 0)
-				bodyCoordinates.remove(0);
-			lenght--;
+			nPos.setX(0);
 		}
+		else if(nPos.X() < 0)
+		{
+			nPos.setX(Parent().Width() - headRadius);
+		}
+		else if(nPos.Y() > Parent().Height())
+		{
+			nPos.setY(0);
+		}
+		else if(nPos.Y() < 0)
+		{
+			nPos.setY(Parent().Height() - headRadius);
+		}
+	
+		bodyCoordinates.add(nPos);
+		if(lenght < 0)
+			bodyCoordinates.remove(0);
+		lenght--;
+	}
+	
+	public void setLenght(int l)
+	{
+		lenght = l;
 	}
 	
 	public boolean CheckifDead(PointD pos)
 	{
 		
 		PointD tempPos = new PointD(pos.X(),pos.Y());
-		
+		/*
 		if(currentDirection == direction.up)
-			tempPos.decrementY(headRadius - 10);
+			tempPos.decrementY(headRadius);
 		else if(currentDirection == direction.down)
-			tempPos.incrementY(headRadius- 10);
+			tempPos.incrementY(headRadius);
 		else if(currentDirection == direction.left)
-			tempPos.decrementX(headRadius- 10);
+			tempPos.decrementX(headRadius);
 		else
-			tempPos.incrementX(headRadius - 10);
-		
+			tempPos.incrementX(headRadius);
+		*/
 		for (int i = bodyCoordinates.size() - 2;i >= 0;i--) {
 			PointD pointD = bodyCoordinates.get(i);
 			if(tempPos.Equals(pointD))
@@ -171,7 +207,7 @@ public class SnakeObject extends MHObject {
 		
 		for (int i = bodyCoordinates.size() - 1; i >= 0; i--) {
 			PointD pos = bodyCoordinates.get(i);
-			gC.fillRoundRect(pos.X(), pos.Y(), headRadius, headRadius,45,45);
+			gC.fillRect(pos.X(), pos.Y(), headRadius, headRadius);
 		}
 	}
 	
@@ -179,7 +215,7 @@ public class SnakeObject extends MHObject {
 	{
 		return (MHWidget) P;
 	}
-	private int lenght = 400;
+	private int lenght = 25;
 	public enum direction{up, down, left, right};
 	private direction currentDirection;
 	private List<PointD> bodyCoordinates;

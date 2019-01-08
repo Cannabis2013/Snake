@@ -35,20 +35,11 @@ public class ObjectAnimator extends Worker {
 		isBusy = true;
 		while(!stopThread)
 		{
-			double dx = 0, dy = 0;
-			if(target.CurrentDirection() == direction.right)
-				dx = target.Speed() / PollRate();
-			else if(target.CurrentDirection() == direction.left)
-				dx = -(target.Speed() / PollRate());
-			else if(target.CurrentDirection() == direction.up)
-				dy = -(target.Speed() / PollRate());
-			else if(target.CurrentDirection() == direction.down)
-				dy = target.Speed() / PollRate();
-			
-			target.move(dx, dy);
+			double d = target.Speed(); 
+			target.move(d);
 			
 			try {
-				sleep(pollResolution);
+				sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

@@ -34,6 +34,19 @@ public class MHWidget extends MHObject{
 		setupResizeEvents();
 		defaultLocation();
 	}
+	
+	public MHWidget(MHObject parent) {
+		super(parent);
+		drawBoard = new Canvas();
+		mainScene = new Scene(new Pane());
+		painter = drawBoard.getGraphicsContext2D();
+		backgroundImage = null;
+		
+		paintUpdate();
+		setupInputEventHandlers();
+		setupResizeEvents();
+		defaultLocation();
+	}
 	public MHWidget(Pane layout)
 	{
 		super();
@@ -224,7 +237,7 @@ public class MHWidget extends MHObject{
 			customEvent cEvent = new customEvent(customEvent.RESIZE_EVENT);
 			cEvent.setDimension(dim);
 			
-			fireEvent(cEvent);
+			resizeEvent(cEvent);
 			
 			drawBoard = new Canvas(w, h);
 			painter = drawBoard.getGraphicsContext2D();
@@ -304,6 +317,9 @@ public class MHWidget extends MHObject{
 	protected void mouseDraggedEvent(MouseEvent event)
 	{}
 	protected void mouseReleaseEvent(MouseEvent event) 
+	{}
+	
+	protected void resizeEvent(customEvent event)
 	{}
 	
 	
