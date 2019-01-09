@@ -3,18 +3,19 @@ package guiExample;
 
 import java.awt.Point;
 
-import baseKit.MHWidget;
+import baseKit.MWidget;
 import javafx.application.Platform;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-public class MainWindow extends MHWidget{
-	public  MainWindow(int n, int m) 
+public class MainWindow extends MWidget{
+	public  MainWindow(int n, int m, int bSize) 
 	{
 		super();
 		pWorker = new PaintWorker(this);
 		gController = new GameController(this);
 		dim = new Point(n,m);
+		blockSize = bSize;
 	}
 	
 	public void initializeSnakePosition(double x, double y)
@@ -33,7 +34,10 @@ public class MainWindow extends MHWidget{
 	protected void keyPressEvent(KeyEvent event) 
 	{
 		if(event.getCode() == KeyCode.ESCAPE)
+		{
+			pWorker.Stop();
 			Platform.exit();
+		}
 		gController.keyEvent(event.getCode());
 	}
 	
@@ -66,8 +70,29 @@ public class MainWindow extends MHWidget{
 		return dim;
 	}
 	
+	/*
+	 * Set block size
+	 * The sidelenght of the quadratic polygons
+	 */
+	
+	public void setGridSize(int n, int m)
+	{
+		setFixedSize(n*blockSize, m*blockSize);
+	}
+	
+	public int BlockSize()
+	{
+		return blockSize;
+	}
+	
+	public void setBlockSize(int size)
+	{
+		blockSize = size;
+	}
+	
 	private GameController gController;
 	private PaintWorker pWorker;
 	private SnakeObject snake;
 	private Point dim;
+	private int blockSize = 20;
 }

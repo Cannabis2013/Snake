@@ -1,37 +1,35 @@
 package guiExample;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-import baseKit.MHObject;
-import baseKit.MHWidget;
+import baseKit.MObject;
+import baseKit.MWidget;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
-public class GameController extends MHObject {
-	public GameController(MHWidget parent) {
-		Parent = parent;
-		animator = new ObjectAnimator();	
+public class GameController extends MObject {
+	public GameController(MainWindow parent) {
+		Parent = parent;	
 		objects = new ArrayList<>();
 	}
 	
 	public void drawObjects()
 	{
-		for (MHWidget obj : objects) {
+		for (MWidget obj : objects) {
 			obj.draw();
 		}
 	}
 	
-	public void addObject(MHWidget obj)
+	public void addObject(MWidget obj)
 	{
 		objects.add(obj);
 	}
 	
-	public MHWidget Object(String objectName)
+	public MWidget Object(String objectName)
 	{
-		for (MHWidget obj : objects) {
+		for (MWidget obj : objects) {
 			if(obj.ObjectName().equals(objectName))
 				return obj;
 		}
@@ -40,20 +38,25 @@ public class GameController extends MHObject {
 	
 	public void drawLevel()
 	{
-		MainWindow p = (MainWindow) Parent;
-		Point pDim = p.gridDimension();
 		GraphicsContext gC = Parent.getPainter();
-		gC.setFill(Color.DARKGREEN);
 		
+		// Draw background color
+		gC.setFill(Color.DARKGREEN);
 		gC.fillRect(0, 0, Parent.Width(), Parent.Height());
 		
+		
+		/*
+		 * Draw grid
+		 * Set linewidth
+		 * Draw grids
+		 */
 		gC.setFill(Color.BLACK);
 		gC.setLineWidth(2);
-		for (int i = 20; i < Parent.Height(); i += 20) {
+		for (int i = Parent.BlockSize(); i < Parent.Height(); i += Parent.BlockSize()) {
 			gC.strokeLine(0, i, Parent.Width(), i);
 		}
 		
-		for (int i = 20; i < Parent.Width(); i += 20) {
+		for (int i = Parent.BlockSize(); i < Parent.Width(); i += Parent.BlockSize()) {
 			gC.strokeLine(i, 0, i, Parent.Height());
 		}
 	}
@@ -61,25 +64,19 @@ public class GameController extends MHObject {
 	public void keyEvent(KeyCode key)
 	{
 		SnakeObject snake = (SnakeObject) Object("Snake");
-		if(key == KeyCode.Q)
-			animator.Stop();
-		else if(key == KeyCode.ENTER && !animator.IsWorking())
+		
+		if(key == KeyCode.R)
 		{
-			animator = new ObjectAnimator(this,snake);
-			animator.start();
-		}
-		else if(key == KeyCode.R)
-		{
-			animator.Stop();
-			objects.remove((MHObject) snake);
+			objects.remove((MObject) snake);
 			snake = new SnakeObject(Parent);
 			snake.setObjectName("Snake");
 			snake.setPosition(Parent.Width()/2, Parent.Height()/2);
 			addObject(snake);
-			
 		}
 		else
-			snake.setCurrentDirection(key);
+		{
+			snake.moveInDirection(key);
+		}
 	}
 	
 	public void moveEvent()
@@ -87,8 +84,6 @@ public class GameController extends MHObject {
 		
 	}
 	
-	private ObjectAnimator animator;
-	private List<MHWidget> objects;
-	private MHWidget Parent;
-	
+	private List<MWidget> objects;
+	private MainWindow Parent;
 }

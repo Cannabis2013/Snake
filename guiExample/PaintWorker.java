@@ -1,10 +1,10 @@
 package guiExample;
 
-import baseKit.MHWidget;
+import baseKit.MWidget;
 
 public class PaintWorker extends Worker {
 
-	public PaintWorker(MHWidget parent) {
+	public PaintWorker(MWidget parent) {
 		super(parent);
 	}
 	

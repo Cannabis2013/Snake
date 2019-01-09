@@ -1,16 +1,15 @@
 package guiExample;
 
-import baseKit.MHObject;
-import baseKit.MHWidget;
+import baseKit.MWidget;
 
 public class Worker extends Thread {
 	
 	protected static boolean stopAllThreads = false;
 	protected boolean stopThread = false;
 	protected int pollResolution = 10;
-	protected MHWidget Parent;
+	protected MWidget Parent;
 	
-	public Worker(MHWidget parent) {
+	public Worker(MWidget parent) {
 		Parent = parent;
 	}
 	public Worker()
@@ -26,5 +25,10 @@ public class Worker extends Thread {
 	public int PollRate()
 	{
 		return 1000/pollResolution;
+	}
+	
+	public void Stop()
+	{
+		stopThread = true;
 	}
 }
