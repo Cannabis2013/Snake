@@ -1,34 +1,19 @@
 package guiExample;
 
 
-import java.awt.Point;
-
 import baseKit.MWidget;
 import javafx.application.Platform;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 public class MainWindow extends MWidget{
-	public  MainWindow(int n, int m, int bSize) 
+	public  MainWindow(int fixedWidth, int fixedHeight,int gridRows, int gridColumns, int bSize) 
 	{
 		super();
+		setFixedSize(fixedWidth, fixedHeight);
 		pWorker = new PaintWorker(this);
-		gController = new GameController(this);
-		dim = new Point(n,m);
-		blockSize = bSize;
+		gController = new GameController(this,gridRows,gridColumns, bSize);
 	}
-	
-	public void initializeSnakePosition(double x, double y)
-	{
-		SnakeObject snake = new SnakeObject(this);
-		snake.setPosition(Width()/2, Height()/2);
-		snake.setObjectName("Snake");
-		gController.addObject(snake);
-	}
-	
-	/*
-	 * 
-	 */
 	
 	@Override
 	protected void keyPressEvent(KeyEvent event) 
@@ -65,34 +50,13 @@ public class MainWindow extends MWidget{
 		pWorker.start();
 	}
 	
-	public Point gridDimension()
-	{
-		return dim;
-	}
-	
 	/*
 	 * Set block size
 	 * The sidelenght of the quadratic polygons
 	 */
 	
-	public void setGridSize(int n, int m)
-	{
-		setFixedSize(n*blockSize, m*blockSize);
-	}
 	
-	public int BlockSize()
-	{
-		return blockSize;
-	}
-	
-	public void setBlockSize(int size)
-	{
-		blockSize = size;
-	}
 	
 	private GameController gController;
 	private PaintWorker pWorker;
-	private SnakeObject snake;
-	private Point dim;
-	private int blockSize = 20;
 }

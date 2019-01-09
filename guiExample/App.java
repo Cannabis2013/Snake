@@ -20,15 +20,12 @@ public class App extends Application {
 		 */
 		List<String> parameters = getParameters().getRaw();
 		
-		String arg1 = parameters.get(0);
-		String arg2 = parameters.get(1);
+		String rows = parameters.get(0);
+		String columns = parameters.get(1);
 		
-		int n = Integer.parseInt(arg1), m = Integer.parseInt(arg2);
+		int r = Integer.parseInt(rows), c = Integer.parseInt(columns);
 		
-		MainWindow mW = new MainWindow(n,m,20);
-		mW.setGridSize(n, m);
-		
-		mW.initializeSnakePosition(n/2, m/2);
+		MainWindow mW = new MainWindow(1280,800,r,c,20);
 		mW.show();
 		}
 	public void exec(String[] args)

@@ -1,6 +1,6 @@
 package baseKit;
 
-public class PointD {
+public class PointD extends MObject{
 	
 	public PointD(double X, double Y) {
 		x = X;
@@ -60,6 +60,16 @@ public class PointD {
 	{
 		return ((compare.X() + Range == X() ||  compare.X() - Range == X()) &&  
 				(compare.Y() + Range == Y()) || compare.Y() - Range == Y());
+	}
+	
+	public PointD copy()
+	{
+		return new PointD(x, y);
+	}
+	
+	public void printCoordinates()
+	{
+		print(String.format("x = %1$,.2f y = %2$,.2f", x,y));
 	}
 	
 	private double x;

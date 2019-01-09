@@ -90,6 +90,16 @@ public class MWidget extends MObject{
 		return mainStage.height() - 39;
 	}
 	
+	public void setWidth(double w)
+	{
+		mainStage.setWidth(w);
+	}
+	
+	public void setHeight(double h)
+	{
+		mainStage.setHeight(h);
+	}
+	
 	public void setSizeHint(sizeHint hint)
 	{
 		if(hint == sizeHint.fixedSize)

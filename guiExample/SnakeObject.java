@@ -1,5 +1,6 @@
 package guiExample;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import baseKit.PointD;
@@ -9,25 +10,32 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
 public class SnakeObject extends MWidget {
-	public SnakeObject(MainWindow parent) {
-		super(parent);
+	public SnakeObject(MWidget owner,Level parent, int l) {
+		P = parent;
+		Owner = owner;
 		bodyCoordinates = new ArrayList<PointD>();
-		SnakeWidth = Parent().BlockSize();
-		currentDirection = direction.right;
+		currentDirection = direction.left;
+		lenght = l;
+		SnakeWidth = parent().BlockSize();
 		speed = SnakeWidth;
 	}
 	
-	public void reBirth()
+	public boolean isDead()
 	{
-		bodyCoordinates.clear();
+		return dead;
+	}
+	
+	public void Kill()
+	{
+		dead = true;
 	}
 	
 	// Position section
 	
 	public void setPosition(double xPos, double yPos)
 	{
-		double y = (double) Parent().Height() - (yPos + SnakeWidth);
-		bodyCoordinates.add(new PointD(xPos, y));
+		for (int i = lenght; i >= 0; i--)
+			bodyCoordinates.add(new PointD(xPos + i*SnakeWidth, yPos));
 	}
 	
 	public PointD Position()
@@ -36,52 +44,11 @@ public class SnakeObject extends MWidget {
 	}
 	
 	/*
-	 * Movement and direction related
-	 * - Move
-	 * - Direction
-	 * - Speed
+	 * Set body properties like lenght and width
 	 */
-	
-	public void move(double d)
+	public int Lenght()
 	{
-		double dx = 0, dy = 0;
-		
-		if(CurrentDirection() == direction.right)
-			dx = d;
-		else if(CurrentDirection() == direction.left)
-			dx = -d;
-		else if(CurrentDirection() == direction.up)
-			dy = -d;
-		else if(CurrentDirection() == direction.down)
-			dy = d;
-		
-		if(dead)
-			return;
-		
-		PointD cPos = Position(),
-				nPos = new PointD(cPos.X() + dx,cPos.Y() + dy);
-		
-		if(nPos.X() > Parent().Width())
-			nPos.setX(0);
-		else if(nPos.X() < 0)
-			nPos.setX(Parent().Width() - SnakeWidth);
-		else if(nPos.Y() > Parent().Height())
-			nPos.setY(0);
-		else if(nPos.Y() < 0)
-			nPos.setY(Parent().Height() - SnakeWidth - 1);
-		
-		print(String.format("Snake x : %1$,.2f Snake y : %2$,.2f", nPos.X(),nPos.Y()));
-	
-		bodyCoordinates.add(nPos);
-		if(lenght < 0)
-			bodyCoordinates.remove(0);
-		lenght--;
-		
-		if(CheckifDead(nPos))
-		{
-			print("Collusion");
-			dead = true;
-		}
+		return lenght;
 	}
 	
 	public void setLenght(int l)
@@ -89,59 +56,37 @@ public class SnakeObject extends MWidget {
 		lenght = l;
 	}
 	
-	private boolean CheckifDead(PointD pos)
+	public void setWidth(int w)
 	{
-		
-		PointD tempPos = new PointD(pos.X(),pos.Y());
-		
-		for (int i = bodyCoordinates.size() - 2;i >= 0;i--) {
-			PointD pointD = bodyCoordinates.get(i);
-			if(tempPos.Equals(pointD))
-				return true;
-		}
-		return false;
+		SnakeWidth = w;
+	}
+	
+	public double width()
+	{
+		return SnakeWidth;
+	}
+	
+	
+	/*
+	 * Movement and direction related
+	 * - Move
+	 * - Direction
+	 * - Speed
+	 */
+	
+	public void moveToCoordinates(PointD pos, int g)
+	{
+		grow += g;
+		bodyCoordinates.add(pos);
+		if(grow <= 0)
+			bodyCoordinates.remove(0);
+		else
+			grow--;
 	}
 	
 	public void setCurrentDirection(direction dir)
 	{
 		currentDirection = dir;
-	}
-	
-	public void moveInDirection(KeyCode key)
-	{
-		if(isOrtogonal(key))
-			return;
-		
-		
-		if(key == KeyCode.LEFT)
-			currentDirection = direction.left;
-		else if(key == KeyCode.RIGHT)
-			currentDirection = direction.right;
-			
-		else if(key == KeyCode.UP)
-			currentDirection = direction.up;
-		else if(key == KeyCode.DOWN)
-			currentDirection = direction.down;
-		
-		move(speed);
-	}
-	
-	public void setCurrentDirection(KeyCode key)
-	{
-		if(isOrtogonal(key))
-			return;
-		
-		
-		if(key == KeyCode.LEFT)
-			currentDirection = direction.left;
-		else if(key == KeyCode.RIGHT)
-			currentDirection = direction.right;
-		else if(key == KeyCode.UP)
-			currentDirection = direction.up;
-		else if(key == KeyCode.DOWN)
-			currentDirection = direction.down;
-		else
-			return;
 	}
 	
 	public direction CurrentDirection()
@@ -159,6 +104,17 @@ public class SnakeObject extends MWidget {
 		return speed;
 	}
 	
+	public boolean CheckifDead(PointD pos)
+	{
+		PointD tempPos = new PointD(pos.X(),pos.Y());
+		for (int i = bodyCoordinates.size() - 2;i >= 0;i--) {
+			PointD pointD = bodyCoordinates.get(i);
+			if(tempPos.Equals(pointD))
+				return true;
+		}
+		return false;
+	}
+	
 	// Draw section
 	
 	public void draw()
@@ -170,7 +126,7 @@ public class SnakeObject extends MWidget {
 	
 	private void paintBody()
 	{
-		MWidget parent = (MWidget) P;
+		MWidget parent = Owner;
 		GraphicsContext gC = parent.getPainter();
 		
 		gC.setFill(Color.BLACK);
@@ -181,7 +137,7 @@ public class SnakeObject extends MWidget {
 		}
 	}
 	
-	private boolean isOrtogonal(KeyCode key)
+	public boolean isOrtogonal(KeyCode key)
 	{
 		if(CurrentDirection() == direction.left && key == KeyCode.RIGHT)
 			return true;
@@ -195,14 +151,16 @@ public class SnakeObject extends MWidget {
 			return false;
 	}
 	
-	public MainWindow Parent()
+	public Level parent()
 	{
-		return (MainWindow) P;
+		return (Level) P;
 	}
-	private int lenght = 10;
+	
+	private int lenght, grow;
 	public enum direction{up, down, left, right};
 	private direction currentDirection;
 	private List<PointD> bodyCoordinates;
 	private double SnakeWidth, speed;
 	private boolean dead = false;
+	private MWidget Owner;
 }

@@ -5,14 +5,29 @@ import java.util.List;
 
 import baseKit.MObject;
 import baseKit.MWidget;
-import javafx.scene.canvas.GraphicsContext;
+import baseKit.PointD;
+import guiExample.SnakeObject.direction;
 import javafx.scene.input.KeyCode;
-import javafx.scene.paint.Color;
 
 public class GameController extends MObject {
-	public GameController(MainWindow parent) {
+	public GameController(MainWindow parent, int n, int m, int bSize) {
 		Parent = parent;	
 		objects = new ArrayList<>();
+		mainLevel = new Level(parent,n,m,bSize);
+		initializeSnakePosition(m/2, n/2);
+	}
+	
+	public void initializeSnakePosition(double x, double y)
+	{
+		SnakeObject snake = new SnakeObject(Parent,mainLevel,1);
+		snake.setPosition(mainLevel.translateX((int) x), mainLevel.translateY((int) y));
+		snake.setObjectName("Snake");
+		addObject(snake);
+	}
+	
+	public void drawLevel()
+	{
+		mainLevel.draw();
 	}
 	
 	public void drawObjects()
@@ -36,31 +51,6 @@ public class GameController extends MObject {
 		return null;
 	}
 	
-	public void drawLevel()
-	{
-		GraphicsContext gC = Parent.getPainter();
-		
-		// Draw background color
-		gC.setFill(Color.DARKGREEN);
-		gC.fillRect(0, 0, Parent.Width(), Parent.Height());
-		
-		
-		/*
-		 * Draw grid
-		 * Set linewidth
-		 * Draw grids
-		 */
-		gC.setFill(Color.BLACK);
-		gC.setLineWidth(2);
-		for (int i = Parent.BlockSize(); i < Parent.Height(); i += Parent.BlockSize()) {
-			gC.strokeLine(0, i, Parent.Width(), i);
-		}
-		
-		for (int i = Parent.BlockSize(); i < Parent.Width(); i += Parent.BlockSize()) {
-			gC.strokeLine(i, 0, i, Parent.Height());
-		}
-	}
-	
 	public void keyEvent(KeyCode key)
 	{
 		SnakeObject snake = (SnakeObject) Object("Snake");
@@ -68,14 +58,36 @@ public class GameController extends MObject {
 		if(key == KeyCode.R)
 		{
 			objects.remove((MObject) snake);
-			snake = new SnakeObject(Parent);
+			snake = new SnakeObject(Parent,mainLevel,1);
 			snake.setObjectName("Snake");
 			snake.setPosition(Parent.Width()/2, Parent.Height()/2);
 			addObject(snake);
 		}
-		else
+		else if(key.isArrowKey())
 		{
-			snake.moveInDirection(key);
+			double d = snake.Speed();
+			
+			if(snake.isDead())
+				return;
+			
+			if(snake.isOrtogonal(key) && snake.Lenght() > 0)
+				return;
+			
+			PointD cPos = snake.Position(), nPos = cPos.copy();
+			
+			updateCoordinates(nPos, key, d);
+			
+			snake.setCurrentDirection(DirectionFromKey(key));
+			
+			CheckAndCorrelateBoundaries(nPos, snake);
+			
+			if(snake.CheckifDead(nPos))
+			{
+				print("Collusion");
+				snake.Kill();
+			}
+			
+			snake.moveToCoordinates(nPos, 0);
 		}
 	}
 	
@@ -84,6 +96,45 @@ public class GameController extends MObject {
 		
 	}
 	
+	private direction DirectionFromKey(KeyCode key)
+	{
+		if(key == KeyCode.LEFT)
+			return direction.left;
+		else if(key == KeyCode.RIGHT)
+			return direction.right;
+		else if(key == KeyCode.UP)
+			return direction.up;
+		else if(key == KeyCode.DOWN)
+			return direction.down;
+		else
+			return null;
+	}
+	
+	private void updateCoordinates(PointD nPos, KeyCode key, double d)
+	{
+		if(key == KeyCode.RIGHT)
+			nPos.incrementX(d);
+		else if(key == KeyCode.LEFT)
+			nPos.decrementX(d);
+		else if(key == KeyCode.UP)
+			nPos.decrementY(d);
+		else if(key == KeyCode.DOWN)
+			nPos.incrementY(d);
+	}
+	
+	private void CheckAndCorrelateBoundaries(PointD nPos, SnakeObject obj)
+	{
+		if(nPos.X() > mainLevel.RightBound())
+			nPos.setX(mainLevel.translateX(0));
+		else if(nPos.X() < mainLevel.LeftBound())
+			nPos.setX(mainLevel.translateX((int) mainLevel.width()));
+		else if((nPos.Y() + obj.width()) > mainLevel.LowerBound())
+			nPos.setY(mainLevel.translateY(0));
+		else if(nPos.Y() < mainLevel.UpperBound())
+			nPos.setY(mainLevel.translateY((int) mainLevel.height()));
+	}
+	
 	private List<MWidget> objects;
 	private MainWindow Parent;
+	private Level mainLevel;
 }

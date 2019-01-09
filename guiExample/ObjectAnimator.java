@@ -32,7 +32,7 @@ public class ObjectAnimator extends Worker {
 		while(!stopThread)
 		{
 			double d = target.Speed(); 
-			target.move(d);
+			//target.move(d);
 			
 			gCon.moveEvent();
 			
