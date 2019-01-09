@@ -25,7 +25,7 @@ public class App extends Application {
 		
 		int n = Integer.parseInt(arg1), m = Integer.parseInt(arg2);
 		
-		MainWindow mW = new MainWindow(n,m,10);
+		MainWindow mW = new MainWindow(n,m,20);
 		mW.setGridSize(n, m);
 		
 		mW.initializeSnakePosition(n/2, m/2);
