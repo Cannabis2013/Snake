@@ -1,23 +1,20 @@
 package guiExample;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import baseKit.PointD;
 import baseKit.MWidget;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
 public class SnakeObject extends MWidget {
-	public SnakeObject(MWidget owner,Level parent, int l) {
-		P = parent;
-		Owner = owner;
+	public SnakeObject(MWidget parent, int l) {
+		super(parent);
 		bodyCoordinates = new ArrayList<PointD>();
 		currentDirection = direction.left;
 		lenght = l;
-		SnakeWidth = parent().BlockSize();
-		speed = SnakeWidth;
+		SnakeWidth = 1;
+		speed = -1;
 	}
 	
 	public boolean isDead()
@@ -34,6 +31,13 @@ public class SnakeObject extends MWidget {
 	
 	public void setPosition(double xPos, double yPos)
 	{
+		for (int i = lenght; i >= 0; i--)
+			bodyCoordinates.add(new PointD(xPos + i*SnakeWidth, yPos));
+	}
+	
+	public void setPosition(PointD pos)
+	{
+		double xPos = pos.X(), yPos = pos.Y();
 		for (int i = lenght; i >= 0; i--)
 			bodyCoordinates.add(new PointD(xPos + i*SnakeWidth, yPos));
 	}
@@ -101,13 +105,16 @@ public class SnakeObject extends MWidget {
 	
 	public double Speed()
 	{
-		return speed;
+		if (speed == -1)
+			return SnakeWidth;
+		else
+			return speed;
 	}
 	
-	public boolean CheckifDead(PointD pos)
+	public boolean containsCoordinate(PointD pos)
 	{
-		PointD tempPos = new PointD(pos.X(),pos.Y());
-		for (int i = bodyCoordinates.size() - 2;i >= 0;i--) {
+		PointD tempPos = pos.copy();
+		for (int i = bodyCoordinates.size() - 1;i >= 0;i--) {
 			PointD pointD = bodyCoordinates.get(i);
 			if(tempPos.Equals(pointD))
 				return true;
@@ -126,8 +133,7 @@ public class SnakeObject extends MWidget {
 	
 	private void paintBody()
 	{
-		MWidget parent = Owner;
-		GraphicsContext gC = parent.getPainter();
+		GraphicsContext gC = P.getPainter();
 		
 		gC.setFill(Color.BLACK);
 		
@@ -137,30 +143,10 @@ public class SnakeObject extends MWidget {
 		}
 	}
 	
-	public boolean isOrtogonal(KeyCode key)
-	{
-		if(CurrentDirection() == direction.left && key == KeyCode.RIGHT)
-			return true;
-		else if(CurrentDirection() == direction.right && key == KeyCode.LEFT)
-			return true;
-		else if(CurrentDirection() == direction.up && key == KeyCode.DOWN)
-			return true;
-		else if(CurrentDirection() == direction.down && key == KeyCode.UP)
-			return true;
-		else
-			return false;
-	}
-	
-	public Level parent()
-	{
-		return (Level) P;
-	}
-	
 	private int lenght, grow;
 	public enum direction{up, down, left, right};
 	private direction currentDirection;
 	private List<PointD> bodyCoordinates;
 	private double SnakeWidth, speed;
 	private boolean dead = false;
-	private MWidget Owner;
 }

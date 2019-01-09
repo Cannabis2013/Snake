@@ -1,12 +1,13 @@
 package guiExample;
 
 import baseKit.MWidget;
+import baseKit.PointD;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class Level extends MWidget {
+public class LevelObject extends MWidget {
 	
-	public Level(MainWindow parent, int Rows, int Columns, int BlockSize) {
+	public LevelObject(MainWindow parent, int Rows, int Columns, int BlockSize) {
 		super(parent);
 		rows = Rows;
 		columns = Columns;
@@ -26,6 +27,23 @@ public class Level extends MWidget {
 	public double translateY(int y)
 	{
 		return  Parent().Height()*0.5 - 0.5*rows*blockSize + y*blockSize;
+	}
+	
+	public PointD translate(double x, double y)
+	{
+		double tx = Parent().Width()*0.5 - 0.5*columns*blockSize + x*blockSize,
+				ty = Parent().Height()*0.5 - 0.5*rows*blockSize + y*blockSize;
+		
+		return new PointD(tx, ty);
+	}
+	
+	public PointD translate(PointD coords)
+	{
+		double x = coords.X(), y = coords.Y(),
+				 tx = Parent().Width()*0.5 - 0.5*columns*blockSize + x*blockSize,
+				ty = Parent().Height()*0.5 - 0.5*rows*blockSize + y*blockSize;
+		
+		return new PointD(tx, ty);
 	}
 	
 	public double LeftBound()
