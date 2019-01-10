@@ -63,6 +63,9 @@ public class App extends Application {
 		
 		int n = Integer.parseInt(args[0]), m = Integer.parseInt(args[1]);
 		App a = new App();
+		if(args.length == 0)
+			throw new IllegalArgumentException();
+		
 		a.exec(args);
 	}
 }
