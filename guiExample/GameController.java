@@ -61,21 +61,13 @@ public class GameController extends MObject {
 			initializeSnakePosition(mainLevel.columnCount()/2, mainLevel.rowCount()/2);
 			generateFoodObject();
 		}
-		else if(key.isArrowKey())
-		{
-			double d = snake.Speed();
+		else if(key.isArrowKey() && 
+				!snake.isDead() && 
+				(!isOpposite(snake.CurrentDirection(), key) || snake.Lenght() == 0))
+		{	
+			PointD nPos = snake.Position().copy();
 			
-			// Check if Snake is alive
-			if(snake.isDead())
-				return;
-			
-			// Check if chosen direction is oppsite of current
-			if(isOpposite(snake.CurrentDirection(), key) && snake.Lenght() > 0)
-				return;
-			
-			PointD cPos = snake.Position(), nPos = cPos.copy();
-			
-			updateCoordinates(nPos, key, d);
+			updateCoordinates(nPos, key, snake.Speed());
 			snake.setCurrentDirection(DirectionFromKey(key));
 			
 			CheckAndCorrelateBoundaries(nPos, snake);

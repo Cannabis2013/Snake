@@ -1,13 +1,10 @@
 package guiExample;
 
 import java.awt.Dimension;
-import java.awt.Point;
 import java.util.List;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
