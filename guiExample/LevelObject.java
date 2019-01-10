@@ -12,6 +12,7 @@ public class LevelObject extends MWidget {
 		rows = Rows;
 		columns = Columns;
 		blockSize = BlockSize;
+		borderWidth = 20;
 	}
 	
 	public int BlockSize()
@@ -78,12 +79,12 @@ public class LevelObject extends MWidget {
 	
 	public double width()
 	{
-		return columns - 1;
+		return columns*blockSize;
 	}
 	
 	public double height()
 	{
-		return rows - 1;
+		return rows*blockSize;
 	}
 	
 	public void draw()
@@ -91,8 +92,12 @@ public class LevelObject extends MWidget {
 		GraphicsContext gC = P.getPainter();
 		
 		// Draw background color
+		
+		//Draw border
+		gC.setFill(Color.BROWN);
+		gC.fillRoundRect(translateX(0) - borderWidth, translateY(0) - borderWidth, columns*blockSize + borderWidth*2, height() + borderWidth*2,30,30);
 		gC.setFill(Color.DARKGREEN);
-		gC.fillRect(0, 0, Parent().Width(), Parent().Height());
+		gC.fillRect(translateX(0), translateY(0), columns*blockSize, height());
 		
 		/*
 		 * Draw grid
@@ -114,4 +119,5 @@ public class LevelObject extends MWidget {
 		}
 	}
 	private int rows, columns, blockSize;
+	private double borderWidth;
 }

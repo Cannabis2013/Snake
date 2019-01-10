@@ -17,10 +17,24 @@ public class App extends Application {
 		/*
 		 * Main thread
 		 */
+		
 		List<String> parameters = getParameters().getRaw();
 		
-		String rows = parameters.get(0);
-		String columns = parameters.get(1);
+		int r = 0, c = 0;
+		if (parameters.size() == 0) {
+			
+			r = 30;
+			c = 40;
+		}
+		else
+		{
+			String rows = parameters.get(0);
+			String columns = parameters.get(1);
+			
+			r = Integer.parseInt(rows);
+			c = Integer.parseInt(columns);
+		}
+		
 		
 		Screen scr = Screen.getPrimary();
 		Dimension scrDim = new Dimension();
@@ -35,9 +49,6 @@ public class App extends Application {
 			scrDim.setSize(1280, 800);
 			blockSize = 20;
 		}
-		
-		
-		int r = Integer.parseInt(rows), c = Integer.parseInt(columns);
 		
 		if(r < 5 || r > 100 || c < 5 || c > 100)
 			throw new IllegalArgumentException();
@@ -56,12 +67,11 @@ public class App extends Application {
 	}
 	
 	public static void main(String[] args) {
-		
-		
-		int n = Integer.parseInt(args[0]), m = Integer.parseInt(args[1]);
 		App a = new App();
-		if(args.length == 0)
-			throw new IllegalArgumentException();
+		if(args.length <= 0)
+		{
+			System.out.println("No arguments passed, standard values will be set.");
+		}
 		
 		a.exec(args);
 	}

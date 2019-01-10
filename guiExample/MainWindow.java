@@ -5,14 +5,17 @@ import java.awt.Dimension;
 
 import baseKit.MWidget;
 import javafx.application.Platform;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
 
 public class MainWindow extends MWidget{
 	public  MainWindow(Dimension size,int gridRows, int gridColumns, int bSize) 
 	{
 		super();
 		setFixedSize(size.getWidth(), size.getHeight());
+		setBackgroundColor(Color.DARKBLUE);
 		pWorker = new PaintWorker(this);
 		gController = new GameController(this,gridRows,gridColumns, bSize);
 	}

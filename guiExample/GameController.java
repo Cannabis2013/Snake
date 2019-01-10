@@ -148,11 +148,11 @@ public class GameController extends MObject {
 		if(nPos.X() > mainLevel.RightBound())
 			nPos.setX(mainLevel.translateX(0));
 		else if(nPos.X() < mainLevel.LeftBound())
-			nPos.setX(mainLevel.translateX((int) mainLevel.width()));
+			nPos.setX(mainLevel.translateX((int) mainLevel.columnCount() - 1));
 		else if((nPos.Y() + obj.Width()) > mainLevel.LowerBound())
 			nPos.setY(mainLevel.translateY(0));
 		else if(nPos.Y() < mainLevel.UpperBound())
-			nPos.setY(mainLevel.translateY((int) mainLevel.height()));
+			nPos.setY(mainLevel.translateY((int) mainLevel.rowCount() - 1));
 	}
 	
 	private void generateFoodObject()
@@ -164,10 +164,10 @@ public class GameController extends MObject {
 		
 		SnakeObject snake = (SnakeObject) Object("Snake");
 		
-		while(snake.containsCoordinate(new PointD(x, y)))
+		while(snake.containsCoordinate(mainLevel.translate(new PointD(x, y))))
 		{
-			x = generator.nextInt(mainLevel.columnCount() + 1);
-			y = generator.nextInt(mainLevel.rowCount() + 1);
+			x = generator.nextInt(mainLevel.columnCount());
+			y = generator.nextInt(mainLevel.rowCount());
 		}
 		
 		FoodObject obj = new FoodObject(Parent,mainLevel.translate(x, y),(double) mainLevel.BlockSize());

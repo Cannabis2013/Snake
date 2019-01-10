@@ -20,6 +20,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 
 public class MWidget extends MObject{
@@ -162,11 +163,23 @@ public class MWidget extends MObject{
 		}
 	}
 	
+	public void setBackgroundColor(Color color)
+	{
+		backgroundColor = color;
+		backgroundImage = null;
+		painter.fillRect(0, 0, Width(), Height());
+	}
+	
 	protected void paintClear()
 	{
 		painter.clearRect(0, 0, Width(), Height());
 		if(backgroundImage != null)
 			painter.drawImage(backgroundImage, 0, 0, Width(), Height());
+		else
+		{
+			painter.setFill(backgroundColor);
+			painter.fillRect(0, 0, Width(), Height());
+		}
 		
 	}
 
@@ -408,4 +421,5 @@ public class MWidget extends MObject{
 	protected Image backgroundImage;
 	private List<MWidget> childrens;
 	protected MWidget P;
+	private Color backgroundColor;
 }
