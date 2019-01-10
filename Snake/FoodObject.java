@@ -1,4 +1,4 @@
-package guiExample;
+package Snake;
 
 import baseKit.MWidget;
 import baseKit.PointD;

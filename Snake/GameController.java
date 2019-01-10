@@ -1,4 +1,4 @@
-package guiExample;
+package Snake;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.Random;
 import baseKit.MObject;
 import baseKit.MWidget;
 import baseKit.PointD;
-import guiExample.SnakeObject.direction;
+import Snake.SnakeObject.direction;
 import javafx.scene.input.KeyCode;
 
 public class GameController extends MObject {

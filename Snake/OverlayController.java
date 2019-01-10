@@ -1,4 +1,4 @@
-package guiExample;
+package Snake;
 
 public class OverlayController {
 	

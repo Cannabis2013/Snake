@@ -1,4 +1,4 @@
-package guiExample;
+package Snake;
 
 import java.awt.Dimension;
 import java.util.List;
@@ -39,10 +39,10 @@ public class App extends Application {
 		Screen scr = Screen.getPrimary();
 		Dimension scrDim = new Dimension();
 		int blockSize = 0;
-		if(scr.getBounds().getWidth() < 1280 || scr.getBounds().getHeight() < 800)
+		if(scr.getBounds().getWidth() <= 1280 || scr.getBounds().getHeight() <= 800)
 		{
-			scrDim.setSize(640, 400);
-			blockSize = 10;
+			scrDim.setSize(1024, 720);
+			blockSize = 15;
 		}
 		else
 		{

@@ -1,4 +1,4 @@
-package guiExample;
+package Snake;
 
 import baseKit.MWidget;
 import baseKit.PointD;
@@ -20,20 +20,20 @@ public class LevelObject extends MWidget {
 		return blockSize;
 	}
 	
-	public double translateX(int x)
+	public double translateX(double x)
 	{
 		return  Parent().Width()*0.5 - 0.5*columns*blockSize + x*blockSize;
 	}
 	
-	public double translateY(int y)
+	public double translateY(double y)
 	{
 		return  Parent().Height()*0.5 - 0.5*rows*blockSize + y*blockSize;
 	}
 	
 	public PointD translate(double x, double y)
 	{
-		double tx = Parent().Width()*0.5 - 0.5*columns*blockSize + x*blockSize,
-				ty = Parent().Height()*0.5 - 0.5*rows*blockSize + y*blockSize;
+		double tx = translateX(x),
+				ty = translateY(y);
 		
 		return new PointD(tx, ty);
 	}
@@ -49,7 +49,7 @@ public class LevelObject extends MWidget {
 	
 	public double LeftBound()
 	{
-		return Parent().Width()*0.5 - 0.5*columns*blockSize;
+		return translateX(0);
 	}
 	
 	public double RightBound()
@@ -59,7 +59,7 @@ public class LevelObject extends MWidget {
 	
 	public double UpperBound()
 	{
-		return  Parent().Height()*0.5 - 0.5*rows*blockSize;
+		return  translateY(0);
 	}
 	
 	public double LowerBound()

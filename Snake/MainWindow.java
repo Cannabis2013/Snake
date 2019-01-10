@@ -1,15 +1,16 @@
-package guiExample;
+package Snake;
 
 
 import java.awt.Dimension;
 
 import baseKit.MWidget;
+import baseKit.customEvent;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
-
+	
 public class MainWindow extends MWidget{
 	public  MainWindow(Dimension size,int gridRows, int gridColumns, int bSize) 
 	{
@@ -54,13 +55,6 @@ public class MainWindow extends MWidget{
 		draw();
 		pWorker.start();
 	}
-	
-	/*
-	 * Set block size
-	 * The sidelenght of the quadratic polygons
-	 */
-	
-	
 	
 	private GameController gController;
 	private PaintWorker pWorker;

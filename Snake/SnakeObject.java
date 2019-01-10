@@ -1,4 +1,4 @@
-package guiExample;
+package Snake;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,7 +125,7 @@ public class SnakeObject extends MWidget {
 	{
 		GraphicsContext gC = P.getPainter();
 		
-		gC.setFill(Color.BLACK);
+		gC.setFill(Color.DARKGRAY);
 		
 		for (int i = bodyCoordinates.size() - 1; i >= 0; i--) {
 			PointD pos = bodyCoordinates.get(i);
