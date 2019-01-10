@@ -1,16 +1,18 @@
 package guiExample;
 
 
+import java.awt.Dimension;
+
 import baseKit.MWidget;
 import javafx.application.Platform;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 public class MainWindow extends MWidget{
-	public  MainWindow(int fixedWidth, int fixedHeight,int gridRows, int gridColumns, int bSize) 
+	public  MainWindow(Dimension size,int gridRows, int gridColumns, int bSize) 
 	{
 		super();
-		setFixedSize(fixedWidth, fixedHeight);
+		setFixedSize(size.getWidth(), size.getHeight());
 		pWorker = new PaintWorker(this);
 		gController = new GameController(this,gridRows,gridColumns, bSize);
 	}

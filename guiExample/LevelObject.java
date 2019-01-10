@@ -66,6 +66,16 @@ public class LevelObject extends MWidget {
 		return  Parent().Height()*0.5 - 0.5*rows*blockSize + rows*blockSize;
 	}
 	
+	public int rowCount()
+	{
+		return rows;
+	}
+	
+	public int columnCount()
+	{
+		return columns;
+	}
+	
 	public double width()
 	{
 		return columns - 1;
@@ -78,7 +88,7 @@ public class LevelObject extends MWidget {
 	
 	public void draw()
 	{
-		GraphicsContext gC = Parent().getPainter();
+		GraphicsContext gC = P.getPainter();
 		
 		// Draw background color
 		gC.setFill(Color.DARKGREEN);
@@ -102,11 +112,6 @@ public class LevelObject extends MWidget {
 		for (int i = 0; i <= columns; i++) {
 			gC.strokeLine(i*blockSize + translateX(0), translateY(0), i*blockSize + translateX(0), blockSize*rows + translateY(0));
 		}
-	}
-	
-	public MainWindow Parent()
-	{
-		return (MainWindow) P;
 	}
 	private int rows, columns, blockSize;
 }

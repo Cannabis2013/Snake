@@ -2,6 +2,7 @@ package guiExample;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import baseKit.MObject;
 import baseKit.MWidget;
@@ -15,16 +16,88 @@ public class GameController extends MObject {
 		objects = new ArrayList<>();
 		mainLevel = new LevelObject(parent,n,m,bSize);
 		initializeSnakePosition(m/2, n/2);
+		generateFoodObject();
 	}
 	
 	public void initializeSnakePosition(double x, double y)
 	{
 		SnakeObject snake = new SnakeObject(Parent,1);
 		snake.setWidth(mainLevel.BlockSize());
-		snake.setPosition(mainLevel.translate(0, 0));
+		snake.setPosition(mainLevel.translate(x, y));
 		snake.setObjectName("Snake");
 		addObject(snake);
 	}
+	
+	public void addObject(MWidget obj)
+	{
+		objects.add(obj);
+	}
+	
+	private MWidget Object(String objectName)
+	{
+		for (MWidget obj : objects) {
+			if(obj.ObjectName().equals(objectName))
+				return obj;
+		}
+		return null;
+	}
+	
+	private void removeObject(String objectName)
+	{
+		MWidget obj = Object(objectName);
+		if(obj != null)
+			objects.remove(obj);
+	}
+	
+	
+	public void keyEvent(KeyCode key)
+	{
+		SnakeObject snake = (SnakeObject) Object("Snake");
+		
+		if(key == KeyCode.R)
+		{
+			objects.remove((MObject) snake);
+			snake = new SnakeObject(Parent,1);
+			initializeSnakePosition(mainLevel.columnCount()/2, mainLevel.rowCount()/2);
+			generateFoodObject();
+		}
+		else if(key.isArrowKey())
+		{
+			double d = snake.Speed();
+			
+			// Check if Snake is alive
+			if(snake.isDead())
+				return;
+			
+			// Check if chosen direction is oppsite of current
+			if(isOpposite(snake.CurrentDirection(), key) && snake.Lenght() > 0)
+				return;
+			
+			PointD cPos = snake.Position(), nPos = cPos.copy();
+			
+			updateCoordinates(nPos, key, d);
+			snake.setCurrentDirection(DirectionFromKey(key));
+			
+			CheckAndCorrelateBoundaries(nPos, snake);
+			
+			// Check for collision
+			if(snake.containsCoordinate(nPos))
+				snake.Kill();
+			
+			FoodObject food = (FoodObject) Object("Food");
+			if(nPos.Equals(food.Position()))
+			{
+				snake.moveToCoordinates(nPos, food.GrowAmount());
+				generateFoodObject();
+			}
+			else
+				snake.moveToCoordinates(nPos, 0);
+		}
+	}
+	
+	/*
+	 * Draw section
+	 */
 	
 	public void drawLevel()
 	{
@@ -36,61 +109,6 @@ public class GameController extends MObject {
 		for (MWidget obj : objects) {
 			obj.draw();
 		}
-	}
-	
-	public void addObject(MWidget obj)
-	{
-		objects.add(obj);
-	}
-	
-	public MWidget Object(String objectName)
-	{
-		for (MWidget obj : objects) {
-			if(obj.ObjectName().equals(objectName))
-				return obj;
-		}
-		return null;
-	}
-	
-	public void keyEvent(KeyCode key)
-	{
-		SnakeObject snake = (SnakeObject) Object("Snake");
-		
-		if(key == KeyCode.R)
-		{
-			objects.remove((MObject) snake);
-			snake = new SnakeObject(Parent,1);
-			snake.setObjectName("Snake");
-			snake.setPosition(Parent.Width()/2, Parent.Height()/2);
-			addObject(snake);
-		}
-		else if(key.isArrowKey())
-		{
-			double d = snake.Speed();
-			
-			if(snake.isDead())
-				return;
-			
-			if(isOrtogonal(snake.CurrentDirection(), key) && snake.Lenght() > 0)
-				return;
-			
-			PointD cPos = snake.Position(), nPos = cPos.copy();
-			
-			updateCoordinates(nPos, key, d);
-			snake.setCurrentDirection(DirectionFromKey(key));
-			
-			CheckAndCorrelateBoundaries(nPos, snake);
-			
-			if(snake.containsCoordinate(nPos))
-				snake.Kill();
-			
-			snake.moveToCoordinates(nPos, 0);
-		}
-	}
-	
-	public void moveEvent()
-	{
-		
 	}
 	
 	private direction DirectionFromKey(KeyCode key)
@@ -119,7 +137,7 @@ public class GameController extends MObject {
 			nPos.incrementY(d);
 	}
 	
-	private boolean isOrtogonal(direction dir,KeyCode key)
+	private boolean isOpposite(direction dir,KeyCode key)
 	{
 		if(dir == direction.left && key == KeyCode.RIGHT)
 			return true;
@@ -139,10 +157,30 @@ public class GameController extends MObject {
 			nPos.setX(mainLevel.translateX(0));
 		else if(nPos.X() < mainLevel.LeftBound())
 			nPos.setX(mainLevel.translateX((int) mainLevel.width()));
-		else if((nPos.Y() + obj.width()) > mainLevel.LowerBound())
+		else if((nPos.Y() + obj.Width()) > mainLevel.LowerBound())
 			nPos.setY(mainLevel.translateY(0));
 		else if(nPos.Y() < mainLevel.UpperBound())
 			nPos.setY(mainLevel.translateY((int) mainLevel.height()));
+	}
+	
+	private void generateFoodObject()
+	{
+		removeObject("Food");
+		Random generator = new Random();
+		double x = generator.nextInt(mainLevel.columnCount()),
+				y = generator.nextInt(mainLevel.rowCount());
+		
+		SnakeObject snake = (SnakeObject) Object("Snake");
+		
+		while(snake.containsCoordinate(new PointD(x, y)))
+		{
+			x = generator.nextInt(mainLevel.columnCount() + 1);
+			y = generator.nextInt(mainLevel.rowCount() + 1);
+		}
+		
+		FoodObject obj = new FoodObject(Parent,mainLevel.translate(x, y),(double) mainLevel.BlockSize());
+		obj.setObjectName("Food");
+		addObject(obj);
 	}
 	
 	private List<MWidget> objects;

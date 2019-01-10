@@ -41,6 +41,7 @@ public class MWidget extends MObject{
 	
 	public MWidget(MWidget parent) {
 		super();
+		
 		drawBoard = new Canvas();
 		mainScene = new Scene(new Pane());
 		painter = drawBoard.getGraphicsContext2D();
@@ -114,6 +115,16 @@ public class MWidget extends MObject{
 	public int Y()
 	{
 		return mainStage.Y();
+	}
+	
+	public void setX(double x)
+	{
+		mainStage.setX(x);
+	}
+	
+	public void setY(double y)
+	{
+		mainStage.setY(y);
 	}
 	
 	public Point position()
@@ -270,7 +281,6 @@ public class MWidget extends MObject{
 		else
 			return null;
 	}
-	
 	
 	/*
 	 * Draw related section.
