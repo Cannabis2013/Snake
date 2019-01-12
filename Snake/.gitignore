@@ -9,3 +9,5 @@
 /SnakeObject$direction.class
 /SnakeObject.class
 /Worker.class
+/PointBox.class
+/LevelController.class

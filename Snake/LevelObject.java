@@ -56,6 +56,11 @@ public class LevelObject extends MWidget {
 		return new PointD(tx, ty);
 	}
 	
+	/*
+	 * Boundaries section
+	 * Get boundaries
+	 */
+	
 	public double LeftBound()
 	{
 		return translateX(0);
