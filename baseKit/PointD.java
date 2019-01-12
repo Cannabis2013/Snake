@@ -1,5 +1,8 @@
 package baseKit;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class PointD extends MObject{
 	
 	public PointD(double X, double Y) {
@@ -53,7 +56,7 @@ public class PointD extends MObject{
 	
 	public boolean Equals(PointD compare)
 	{
-		return (compare.X() == X() && compare.Y() == Y());
+		return (round(compare.X(),2) == round(X(),2) && round(compare.Y(),2) == round(Y(),2));
 	}
 	
 	public boolean WithinRange(PointD compare, double Range)
@@ -65,6 +68,14 @@ public class PointD extends MObject{
 	public PointD copy()
 	{
 		return new PointD(x, y);
+	}
+	
+	public static double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+
+	    BigDecimal bd = new BigDecimal(value);
+	    bd = bd.setScale(places, RoundingMode.HALF_UP);
+	    return bd.doubleValue();
 	}
 	
 	public void printCoordinates()

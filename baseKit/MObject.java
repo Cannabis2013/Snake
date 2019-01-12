@@ -22,7 +22,7 @@ public class MObject  {
 	
 	protected void printCoordinates(double x, double y)
 	{
-		print(String.format("x: %1$,.2f y: %2$,.2f", x,y));
+		print(String.format("x: %1$,.10f y: %2$,.10f", x,y));
 	}
 	
 	/*

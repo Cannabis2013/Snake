@@ -127,12 +127,12 @@ public class LevelObject extends MWidget {
 	
 	public double lastColumn()
 	{
-		return translateY(0) + BlockSize()*rowCount();
+		return translateY(0) + BlockSize()*(rowCount()-1);
 	}
 	
 	public double lastRow()
 	{
-		return translateX(0) + width();
+		return translateX(0) + (columns-1)*BlockSize();
 	}
 	
 	/*
@@ -209,9 +209,9 @@ public class LevelObject extends MWidget {
 		gC.fillRect(translateX(0), translateY(0), columns*BlockSize(), height());
 		
 		for (int i = 0; i <= columns; i++)
-			gC.strokeLine(translateX(i), translateY(0), translateX(i), lastColumn());
+			gC.strokeLine(translateX(i), translateY(0), translateX(i), lastColumn()+BlockSize());
 		for (int i = 0; i <= rows; i++) {
-			gC.strokeLine(translateX(0), translateY(i), lastRow(), translateY(i));
+			gC.strokeLine(translateX(0), translateY(i), lastRow() + BlockSize(), translateY(i));
 		}
 	}
 	private double verticalTopMargin,verticalBottomMargin;

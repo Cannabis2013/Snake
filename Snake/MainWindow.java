@@ -20,7 +20,7 @@ public class MainWindow extends MWidget{
 		level.setRows(gridRows);;
 		level.setColumns(gridColumns);
 		level.setBorderWidth(20);
-		level.setverticalTopMargin(50);
+		level.setverticalTopMargin(0);
 		level.setY(0);
 		level.setX(Width()*0.5 - level.width()*0.5 - level.BorderWidth());
 		

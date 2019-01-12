@@ -68,6 +68,7 @@ public class GameController extends MObject {
 			PointD nPos = snake.Position().copy();
 			
 			updateCoordinates(nPos, key, snake.Speed());
+			
 			snake.setCurrentDirection(DirectionFromKey(key));
 			
 			CheckAndCorrelateBoundaries(nPos, snake);
@@ -139,14 +140,14 @@ public class GameController extends MObject {
 	
 	private void CheckAndCorrelateBoundaries(PointD nPos, SnakeObject obj)
 	{
-		if(nPos.X() > level.RightBound())
+		if(nPos.X() - 1 > level.RightBound())
 			nPos.setX(level.translateX(0));
 		else if(nPos.X() < level.LeftBound())
 			nPos.setX(level.translateX((int) level.columnCount() - 1));
 		else if((nPos.Y() + obj.BlockWidth()) > level.LowerBound())
 			nPos.setY(level.translateY(0));
-		else if(nPos.Y() < level.UpperBound())
-			nPos.setY(level.translateY((int) level.rowCount()-1));
+		else if(nPos.Y() + 1 < level.UpperBound())
+			nPos.setY(level.lastColumn());
 	}
 	
 	private void generateFoodObject()
@@ -164,6 +165,8 @@ public class GameController extends MObject {
 			x = generator.nextInt(level.columnCount());
 			y = generator.nextInt(level.rowCount() -1);
 		}
+		
+		
 		FoodObject obj = new FoodObject(Parent,new PointD(level.translateX(x),level.translateY(y)),level.BlockSize());
 		obj.setObjectName("Food");
 		addObject(obj);
