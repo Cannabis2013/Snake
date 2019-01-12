@@ -7,11 +7,18 @@ import javafx.scene.paint.Color;
 
 public class LevelObject extends MWidget {
 	
-	public LevelObject(MainWindow parent, int Rows, int Columns) {
+	public LevelObject(MainWindow parent) {
 		super(parent);
-		rows = Rows;
-		columns = Columns;
+		rows = 0;
+		columns = 0;
 		borderWidth = 20;
+		height = parent.Height();
+		xPos = 20;
+		yPos = 20;
+	}
+	
+	public void setDefaultLocation()
+	{
 		height = Parent().Height() - 2*borderWidth - 50;
 		xPos = (int) Parent().Width()*0.5 - 0.5*columns*BlockSize();
 		yPos = Parent().Height()*0.5 - 0.5*rows*BlockSize();
@@ -58,7 +65,7 @@ public class LevelObject extends MWidget {
 	
 	/*
 	 * Boundaries section
-	 * Get boundaries
+	 * Get left/right/upper/lower boundaries
 	 */
 	
 	public double LeftBound()
@@ -74,6 +81,11 @@ public class LevelObject extends MWidget {
 	public double UpperBound()
 	{
 		return  translateY(0);
+	}
+	
+	public double LowerBound()
+	{
+		return  Parent().Height()*0.5 - 0.5*rows*BlockSize() + rows*BlockSize();
 	}
 	
 	/*
@@ -102,10 +114,11 @@ public class LevelObject extends MWidget {
 		yPos = y;
 	}
 	
-	public double LowerBound()
-	{
-		return  Parent().Height()*0.5 - 0.5*rows*BlockSize() + rows*BlockSize();
-	}
+	/*
+	 * Grid section
+	 * 		-Get grid dimensions
+	 * 		-Set grid dimensions
+	 */
 	
 	public int rowCount()
 	{
@@ -117,6 +130,16 @@ public class LevelObject extends MWidget {
 		return columns;
 	}
 	
+	public void setRows(int r)
+	{
+		rows = r;
+	}
+	
+	public void setColumns(int c)
+	{
+		columns = c;
+	}
+	
 	public double width()
 	{
 		return columns*BlockSize();
@@ -126,6 +149,11 @@ public class LevelObject extends MWidget {
 	{
 		return rows*BlockSize();
 	}
+	
+	/*
+	 * Draw section
+	 * Re-implements MWidget.draw()
+	 */
 	
 	public void draw()
 	{

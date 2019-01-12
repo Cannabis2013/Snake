@@ -16,9 +16,11 @@ public class MainWindow extends MWidget{
 		super();
 		setFixedSize(size.getWidth(), size.getHeight());
 		setBackgroundColor(Color.DARKBLUE);
-		level = new LevelObject(this, gridRows, gridColumns);
+		lController = new LevelController(this, gridRows, gridColumns);
+		
+		
 		pWorker = new PaintWorker(this);
-		gController = new GameController(this,level,gridRows,gridColumns);
+		gController = new GameController(this,lController);
 	}
 	
 	@Override
@@ -40,7 +42,7 @@ public class MainWindow extends MWidget{
 	public void draw()
 	{
 		paintClear();
-		level.draw();;
+		lController.drawLevel();;
 		gController.drawObjects();
 		paintUpdate();
 	}
@@ -62,6 +64,6 @@ public class MainWindow extends MWidget{
 	}
 	
 	private GameController gController;
-	private LevelObject level;
+	private LevelController lController;
 	private PaintWorker pWorker;
 }
