@@ -11,8 +11,15 @@ public class LevelController extends MObject {
 		setRowCount(rows);
 		setColumnCount(columns);
 		level.setBorderWidth(20);
+		level.setVerticalPadding(100);
+		level.setX(parent.Width()*0.5 - level.width()*0.5 - level.BorderWidth());
+		level.setY(0);
 		
-		level.setDefaultLocation();
+	}
+	
+	public double BorderWidth()
+	{
+		return level.BorderWidth();
 	}
 	
 	/*
@@ -38,6 +45,11 @@ public class LevelController extends MObject {
 	public PointD MapToRelative(PointD coords)
 	{
 		return level.translate(coords);
+	}
+	
+	public double Height()
+	{
+		return level.height() + level.translateY(0);
 	}
 	
 	/*
@@ -104,7 +116,7 @@ public class LevelController extends MObject {
 	
 	public void drawLevel()
 	{
-		level.draw();
+		level.paint();
 	}
 	
 	private LevelObject level;

@@ -10,13 +10,13 @@ public class OverlayController extends MObject {
 	
 	public void setPoint(int p)
 	{
-		point = p;
+		gamePoint = p;
 	}
 	
 	public int Point()
 	{
-		return point;
+		return gamePoint;
 	}
 	MainWindow Parent;
-	private int point = 0;
+	private int gamePoint = 0;
 }

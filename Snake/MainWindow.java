@@ -36,7 +36,7 @@ public class MainWindow extends MWidget{
 	
 	@Override
 	protected void mouseMoveEvent(MouseEvent event) {
-		print(String.format("x: %1$,.2f y: %2$,.2f", event.getX(),event.getY()));
+		//print(String.format("x: %1$,.2f y: %2$,.2f", event.getX(),event.getY()));
 	}
 	
 	public void draw()

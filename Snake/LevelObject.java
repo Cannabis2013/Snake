@@ -15,13 +15,25 @@ public class LevelObject extends MWidget {
 		height = parent.Height();
 		xPos = 20;
 		yPos = 20;
+		verticalPadding = 0;
 	}
 	
 	public void setDefaultLocation()
 	{
-		height = Parent().Height() - 2*borderWidth - 50;
-		xPos = (int) Parent().Width()*0.5 - 0.5*columns*BlockSize();
-		yPos = Parent().Height()*0.5 - 0.5*rows*BlockSize();
+		height = Parent().Height() - 2*borderWidth - verticalPadding;
+		xPos = (int) Parent().Width()*0.5 - 0.5*columns*BlockSize() - borderWidth;
+		yPos = Parent().Height()*0.5 - 0.5*rows*BlockSize() - borderWidth;
+	}
+	
+	/*
+	 * Border section
+	 * 		- Get border width
+	 * 		- Set border width
+	 */
+	
+	public double BorderWidth()
+	{
+		return borderWidth;
 	}
 	
 	public void setBorderWidth(double w)
@@ -38,12 +50,13 @@ public class LevelObject extends MWidget {
 	
 	public double translateX(double x)
 	{
-		return  xPos + x*BlockSize();
+		return  xPos + x*BlockSize() + borderWidth;
 	}
 	
 	public double translateY(double y)
 	{
-		return  yPos + y*BlockSize();
+		double b = BlockSize();
+		return  yPos + y*BlockSize() + borderWidth;
 	}
 	
 	public PointD translate(double x, double y)
@@ -57,8 +70,8 @@ public class LevelObject extends MWidget {
 	public PointD translate(PointD coords)
 	{
 		double x = coords.X(), y = coords.Y(),
-				 tx = Parent().Width()*0.5 - 0.5*columns*BlockSize() + x*BlockSize(),
-				ty = Parent().Height()*0.5 - 0.5*rows*BlockSize() + y*BlockSize();
+				 tx = translateX(x),
+				ty = translateY(y);
 		
 		return new PointD(tx, ty);
 	}
@@ -75,7 +88,7 @@ public class LevelObject extends MWidget {
 	
 	public double RightBound()
 	{
-		return Parent().Width()*0.5 - 0.5*columns*BlockSize() + columns*BlockSize() - BlockSize();
+		return translateX(0) + width() - BlockSize();
 	}
 	
 	public double UpperBound()
@@ -85,7 +98,7 @@ public class LevelObject extends MWidget {
 	
 	public double LowerBound()
 	{
-		return  Parent().Height()*0.5 - 0.5*rows*BlockSize() + rows*BlockSize();
+		return  translateY(0) + height();
 	}
 	
 	/*
@@ -147,7 +160,17 @@ public class LevelObject extends MWidget {
 	
 	public double height()
 	{
-		return rows*BlockSize();
+		return Parent().Height() - 2*borderWidth - verticalPadding;
+	}
+	
+	public void setVerticalPadding(double vPad)
+	{
+		verticalPadding = vPad;
+	}
+	
+	public double VerticalPadding()
+	{
+		return verticalPadding;
 	}
 	
 	/*
@@ -155,7 +178,7 @@ public class LevelObject extends MWidget {
 	 * Re-implements MWidget.draw()
 	 */
 	
-	public void draw()
+	public void paint()
 	{
 		GraphicsContext gC = P.getPainter();
 		
@@ -166,17 +189,8 @@ public class LevelObject extends MWidget {
 		gC.fillRoundRect(translateX(0) - borderWidth, translateY(0) - borderWidth, columns*BlockSize() + borderWidth*2, height() + borderWidth*2,30,30);
 		gC.setFill(Color.DARKGREEN);
 		gC.fillRect(translateX(0), translateY(0), columns*BlockSize(), height());
-		
-		/*
-		 * Draw grid
-		 * Set linewidth
-		 * Draw grid
-		 */
-		
-		gC.setFill(Color.BLACK);
-		gC.setLineWidth(2);
-
 	}
+	private double verticalPadding;
 	private double height;
 	private int rows, columns;
 	private double xPos, yPos;

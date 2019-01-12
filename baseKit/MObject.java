@@ -20,6 +20,11 @@ public class MObject  {
 			System.out.print(txt);
 	}
 	
+	protected void printCoordinates(double x, double y)
+	{
+		print(String.format("x: %1$,.2f y: %2$,.2f", x,y));
+	}
+	
 	/*
 	 * Meta information related
 	 */

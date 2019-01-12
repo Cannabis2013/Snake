@@ -152,19 +152,20 @@ public class GameController extends MObject {
 	private void generateFoodObject()
 	{
 		removeObject("Food");
+		
 		Random generator = new Random();
 		double x = generator.nextInt(lController.Columns()),
-				y = generator.nextInt(lController.Rows());
+				y = generator.nextInt((int) ((int)lController.LowerBound() - lController.BorderWidth())) + lController.MapYToRelative(0);
 		
 		SnakeObject snake = (SnakeObject) Object("Snake");
 		
 		while(snake.containsCoordinate(lController.MapToRelative(new PointD(x, y))))
 		{
 			x = generator.nextInt(lController.Columns());
-			y = generator.nextInt(lController.Rows());
+			y = generator.nextInt((int) ((int)lController.LowerBound()- lController.BorderWidth())) + lController.MapYToRelative(0);
 		}
 		
-		FoodObject obj = new FoodObject(Parent,lController.MapToRelative(x, y),(double) lController.BlockSize());
+		FoodObject obj = new FoodObject(Parent,new PointD(lController.MapXToRelative(x),y),(double) lController.BlockSize());
 		obj.setObjectName("Food");
 		addObject(obj);
 	}
