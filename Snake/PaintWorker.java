@@ -2,10 +2,10 @@ package Snake;
 
 import baseKit.MWidget;
 
-public class PaintWorker extends Worker {
+public class PaintWorker extends Thread {
 
 	public PaintWorker(MWidget parent) {
-		super(parent);
+		Parent = parent;
 	}
 	
 	@Override
@@ -21,4 +21,25 @@ public class PaintWorker extends Worker {
 			}
 		}
 	}
+	
+	public void setPollRate(int rate)
+	{
+		if(rate > 1000)
+			throw new IllegalArgumentException();
+		pollResolution = 1000/rate;
+	}
+	
+	public int PollRate()
+	{
+		return 1000/pollResolution;
+	}
+	
+	public void Stop()
+	{
+		stopThread = true;
+	}
+	
+	private boolean stopThread = false;
+	private int pollResolution = 10;
+	private MWidget Parent;
 }
