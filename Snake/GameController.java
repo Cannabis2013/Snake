@@ -57,6 +57,7 @@ public class GameController extends MObject {
 		if(key == KeyCode.R)
 		{
 			objects.remove((MObject) snake);
+			Parent.RemoveChild(snake);
 			snake = new SnakeObject(Parent,1);
 			initializeSnakePosition(level.columnCount()/2, level.rowCount()/2);
 			generateFoodObject();
@@ -142,7 +143,7 @@ public class GameController extends MObject {
 	{
 		if(nPos.X() - 1 > level.RightBound())
 			nPos.setX(level.translateX(0));
-		else if(nPos.X() < level.LeftBound())
+		else if(nPos.X() + 1 < level.LeftBound())
 			nPos.setX(level.translateX((int) level.columnCount() - 1));
 		else if((nPos.Y() + obj.BlockWidth() - 1) > level.LowerBound())
 			nPos.setY(level.translateY(0));

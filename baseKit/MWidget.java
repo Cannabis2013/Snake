@@ -304,6 +304,11 @@ public class MWidget extends MObject{
 		return null;
 	}
 	
+	public void RemoveChild(MWidget child)
+	{
+		children.remove(child);
+	}
+	
 	/*
 	 * Draw related section.
 	 */

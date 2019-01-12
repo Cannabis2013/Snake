@@ -79,7 +79,10 @@ public class SnakeObject extends MWidget {
 		if(grow <= 0)
 			bodyCoordinates.remove(0);
 		else
+		{
 			grow--;
+			lenght++;
+		}
 	}
 	
 	public void setCurrentDirection(direction dir)

@@ -18,6 +18,8 @@ public class Scoreboard extends MWidget{
 		setHeight(100);
 		setX(0);
 		setY(0);
+		
+		Snake = null;
 	}
 	
 	public void setBorderWidth(double w)
@@ -50,7 +52,6 @@ public class Scoreboard extends MWidget{
 		return Y() + borderWidth;
 	}
 	
-	
 	/*
 	 * Draw section
 	 */
@@ -70,10 +71,24 @@ public class Scoreboard extends MWidget{
 		painter.setFill(Color.BLACK);
 		Font txtHeading = new Font(48);
 		painter.setFont(txtHeading);
-		painter.fillText("Scoreboard", ContentX() + 5, ContentY() + 48);
+		painter.fillText("Scoreboard", ContentX() + 7.5, ContentY() + 48);
+		
+		painter.setLineWidth(5);
+		
+		painter.strokeLine(ContentX() + 2.5, ContentY() + 64, ContentX() + ContentWidth() - 2.5, ContentY() + 64);
+		painter.setLineWidth(1);
+		
+		Font txtNormal = new Font(24);
+		painter.setFont(txtNormal);
+		
+		Snake = (SnakeObject) P.Child("Snake");
+		String txt = String.format("Player scorer: %d ", Snake.Lenght());
+		
+		painter.fillText(txt, ContentX() + 7.5, ContentY() + 128);
 		
 	}
 	private double borderWidth = 1, borderRadius = 0;
 	private Color borderColor, fillColor, fillTextColor;
+	private SnakeObject Snake;
 
 }
