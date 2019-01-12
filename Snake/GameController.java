@@ -11,19 +11,19 @@ import Snake.SnakeObject.direction;
 import javafx.scene.input.KeyCode;
 
 public class GameController extends MObject {
-	public GameController(MainWindow parent,LevelController lObject) {
+	public GameController(MainWindow parent,LevelObject lObject) {
 		Parent = parent;
-		lController = lObject;	
+		level = lObject;	
 		objects = new ArrayList<>();
-		initializeSnakePosition(lController.Rows()/2, lController.Columns()/2);
+		initializeSnakePosition(0, 0);
 		generateFoodObject();
 	}
 	
 	public void initializeSnakePosition(double x, double y)
 	{
 		SnakeObject snake = new SnakeObject(Parent,1);
-		snake.setWidth(lController.BlockSize());
-		snake.setPosition(lController.MapToRelative(x, y));
+		snake.setWidth(level.BlockSize());
+		snake.setPosition(level.translate(x, y));
 		snake.setObjectName("Snake");
 		addObject(snake);
 	}
@@ -58,7 +58,7 @@ public class GameController extends MObject {
 		{
 			objects.remove((MObject) snake);
 			snake = new SnakeObject(Parent,1);
-			initializeSnakePosition(lController.Columns()/2, lController.Rows()/2);
+			initializeSnakePosition(level.columnCount()/2, level.rowCount()/2);
 			generateFoodObject();
 		}
 		else if(key.isArrowKey() && 
@@ -139,14 +139,14 @@ public class GameController extends MObject {
 	
 	private void CheckAndCorrelateBoundaries(PointD nPos, SnakeObject obj)
 	{
-		if(nPos.X() > lController.RightBound())
-			nPos.setX(lController.MapXToRelative(0));
-		else if(nPos.X() < lController.LeftBound())
-			nPos.setX(lController.MapXToRelative((int) lController.Columns() - 1));
-		else if((nPos.Y() + obj.Width()) > lController.LowerBound())
-			nPos.setY(lController.MapYToRelative(0));
-		else if(nPos.Y() < lController.UpperBound())
-			nPos.setY(lController.MapYToRelative((int) lController.Rows() - 1));
+		if(nPos.X() > level.RightBound())
+			nPos.setX(level.translateX(0));
+		else if(nPos.X() < level.LeftBound())
+			nPos.setX(level.translateX((int) level.columnCount() - 1));
+		else if((nPos.Y() + obj.BlockWidth()) > level.LowerBound())
+			nPos.setY(level.translateY(0));
+		else if(nPos.Y() < level.UpperBound())
+			nPos.setY(level.translateY((int) level.rowCount()-1));
 	}
 	
 	private void generateFoodObject()
@@ -154,23 +154,22 @@ public class GameController extends MObject {
 		removeObject("Food");
 		
 		Random generator = new Random();
-		double x = generator.nextInt(lController.Columns()),
-				y = generator.nextInt((int) ((int)lController.LowerBound() - lController.BorderWidth())) + lController.MapYToRelative(0);
+		double x = generator.nextInt(level.columnCount()),
+				y = generator.nextInt(level.rowCount() -1);
 		
 		SnakeObject snake = (SnakeObject) Object("Snake");
 		
-		while(snake.containsCoordinate(lController.MapToRelative(new PointD(x, y))))
+		while(snake.containsCoordinate(level.translate(new PointD(x, y))))
 		{
-			x = generator.nextInt(lController.Columns());
-			y = generator.nextInt((int) ((int)lController.LowerBound()- lController.BorderWidth())) + lController.MapYToRelative(0);
+			x = generator.nextInt(level.columnCount());
+			y = generator.nextInt(level.rowCount() -1);
 		}
-		
-		FoodObject obj = new FoodObject(Parent,new PointD(lController.MapXToRelative(x),y),(double) lController.BlockSize());
+		FoodObject obj = new FoodObject(Parent,new PointD(level.translateX(x),level.translateY(y)),level.BlockSize());
 		obj.setObjectName("Food");
 		addObject(obj);
 	}
 	
 	private List<MWidget> objects;
 	private MainWindow Parent;
-	private LevelController lController;
+	private LevelObject level;
 }

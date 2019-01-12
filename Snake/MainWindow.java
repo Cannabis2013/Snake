@@ -2,7 +2,6 @@ package Snake;
 
 
 import java.awt.Dimension;
-
 import baseKit.MWidget;
 import javafx.application.Platform;
 import javafx.scene.input.KeyCode;
@@ -16,11 +15,17 @@ public class MainWindow extends MWidget{
 		super();
 		setFixedSize(size.getWidth(), size.getHeight());
 		setBackgroundColor(Color.DARKBLUE);
-		lController = new LevelController(this, gridRows, gridColumns);
 		
+		level = new LevelObject(this);
+		level.setRows(gridRows);;
+		level.setColumns(gridColumns);
+		level.setBorderWidth(20);
+		level.setverticalTopMargin(50);
+		level.setY(0);
+		level.setX(Width()*0.5 - level.width()*0.5 - level.BorderWidth());
 		
 		pWorker = new PaintWorker(this);
-		gController = new GameController(this,lController);
+		gController = new GameController(this,level);
 	}
 	
 	@Override
@@ -42,7 +47,7 @@ public class MainWindow extends MWidget{
 	public void draw()
 	{
 		paintClear();
-		lController.drawLevel();;
+		level.draw();
 		gController.drawObjects();
 		paintUpdate();
 	}
@@ -64,6 +69,6 @@ public class MainWindow extends MWidget{
 	}
 	
 	private GameController gController;
-	private LevelController lController;
+	private LevelObject level;
 	private PaintWorker pWorker;
 }

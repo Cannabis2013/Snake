@@ -13,8 +13,7 @@ public class SnakeObject extends MWidget {
 		bodyCoordinates = new ArrayList<PointD>();
 		currentDirection = direction.left;
 		lenght = l;
-		setWidth(1);
-		setHeight(1);
+		width = 1;
 		speed = -1;
 	}
 	
@@ -33,14 +32,14 @@ public class SnakeObject extends MWidget {
 	public void setPosition(double xPos, double yPos)
 	{
 		for (int i = lenght; i >= 0; i--)
-			bodyCoordinates.add(new PointD(xPos + i*Width(), yPos));
+			bodyCoordinates.add(new PointD(xPos + i*width, yPos));
 	}
 	
 	public void setPosition(PointD pos)
 	{
 		double xPos = pos.X(), yPos = pos.Y();
 		for (int i = lenght; i >= 0; i--)
-			bodyCoordinates.add(new PointD(xPos + i*Width(), yPos));
+			bodyCoordinates.add(new PointD(xPos + i*width, yPos));
 	}
 	
 	public PointD Position()
@@ -54,6 +53,11 @@ public class SnakeObject extends MWidget {
 	public int Lenght()
 	{
 		return lenght;
+	}
+	
+	public double BlockWidth()
+	{
+		return width;
 	}
 	
 	public void setLenght(int l)
@@ -92,11 +96,15 @@ public class SnakeObject extends MWidget {
 	{
 		speed = dT;
 	}
+	public void setWidth(double w)
+	{
+		width = w;
+	}
 	
 	public double Speed()
 	{
 		if (speed == -1)
-			return Width();
+			return width;
 		else
 			return speed;
 	}
@@ -129,7 +137,7 @@ public class SnakeObject extends MWidget {
 		
 		for (int i = bodyCoordinates.size() - 1; i >= 0; i--) {
 			PointD pos = bodyCoordinates.get(i);
-			gC.fillRect(pos.X(), pos.Y(), Width(), Width());
+			gC.fillRect(pos.X(), pos.Y(), width, width);
 		}
 	}
 	
@@ -137,6 +145,6 @@ public class SnakeObject extends MWidget {
 	public enum direction{up, down, left, right};
 	private direction currentDirection;
 	private List<PointD> bodyCoordinates;
-	private double speed;
+	private double speed,width;
 	private boolean dead = false;
 }

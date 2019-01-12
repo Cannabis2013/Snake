@@ -11,9 +11,9 @@ public class LevelController extends MObject {
 		setRowCount(rows);
 		setColumnCount(columns);
 		level.setBorderWidth(20);
-		level.setVerticalPadding(100);
-		level.setX(parent.Width()*0.5 - level.width()*0.5 - level.BorderWidth());
+		level.setverticalTopMargin(50);
 		level.setY(0);
+		level.setX(parent.Width()*0.5 - level.width()*0.5 - level.BorderWidth());
 		
 	}
 	
@@ -85,7 +85,7 @@ public class LevelController extends MObject {
 	 * 		- Set dimensions (Rowcount, ColumnCount)
 	 */
 	
-	public int BlockSize()
+	public double BlockSize()
 	{
 		return level.BlockSize();
 	}
@@ -116,7 +116,7 @@ public class LevelController extends MObject {
 	
 	public void drawLevel()
 	{
-		level.paint();
+		level.draw();
 	}
 	
 	private LevelObject level;

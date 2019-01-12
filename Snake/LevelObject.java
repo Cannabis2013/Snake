@@ -12,15 +12,14 @@ public class LevelObject extends MWidget {
 		rows = 0;
 		columns = 0;
 		borderWidth = 20;
-		height = parent.Height();
-		xPos = 20;
-		yPos = 20;
-		verticalPadding = 0;
+		xPos = 0;
+		yPos = 0;
+		verticalTopMargin = 0;
+		verticalBottomMargin = 0;
 	}
 	
 	public void setDefaultLocation()
 	{
-		height = Parent().Height() - 2*borderWidth - verticalPadding;
 		xPos = (int) Parent().Width()*0.5 - 0.5*columns*BlockSize() - borderWidth;
 		yPos = Parent().Height()*0.5 - 0.5*rows*BlockSize() - borderWidth;
 	}
@@ -41,9 +40,9 @@ public class LevelObject extends MWidget {
 		borderWidth = w;
 	}
 	
-	public int BlockSize()
+	public double BlockSize()
 	{
-		return (int)height/rows;
+		return height()/rows;
 	}
 	
 	// Translate grid coordinates to global coordinates
@@ -55,8 +54,7 @@ public class LevelObject extends MWidget {
 	
 	public double translateY(double y)
 	{
-		double b = BlockSize();
-		return  yPos + y*BlockSize() + borderWidth;
+		return  yPos + verticalTopMargin + y*BlockSize() + borderWidth;
 	}
 	
 	public PointD translate(double x, double y)
@@ -127,6 +125,16 @@ public class LevelObject extends MWidget {
 		yPos = y;
 	}
 	
+	public double lastColumn()
+	{
+		return translateY(0) + BlockSize()*rowCount();
+	}
+	
+	public double lastRow()
+	{
+		return translateX(0) + width();
+	}
+	
 	/*
 	 * Grid section
 	 * 		-Get grid dimensions
@@ -160,25 +168,35 @@ public class LevelObject extends MWidget {
 	
 	public double height()
 	{
-		return Parent().Height() - 2*borderWidth - verticalPadding;
+		return Parent().Height() - 2*borderWidth - verticalTopMargin - verticalBottomMargin;
 	}
 	
-	public void setVerticalPadding(double vPad)
+	public void setverticalTopMargin(double vPad)
 	{
-		verticalPadding = vPad;
+		verticalTopMargin = vPad;
 	}
 	
-	public double VerticalPadding()
+	public double VerticalTopMargin()
 	{
-		return verticalPadding;
+		return verticalTopMargin;
 	}
+	public void setVerticalBottomMargin(double vPad)
+	{
+		verticalBottomMargin = vPad;
+	}
+	
+	public double VerticalBottomMargin()
+	{
+		return verticalBottomMargin;
+	}
+	
 	
 	/*
 	 * Draw section
 	 * Re-implements MWidget.draw()
 	 */
 	
-	public void paint()
+	public void draw()
 	{
 		GraphicsContext gC = P.getPainter();
 		
@@ -189,9 +207,14 @@ public class LevelObject extends MWidget {
 		gC.fillRoundRect(translateX(0) - borderWidth, translateY(0) - borderWidth, columns*BlockSize() + borderWidth*2, height() + borderWidth*2,30,30);
 		gC.setFill(Color.DARKGREEN);
 		gC.fillRect(translateX(0), translateY(0), columns*BlockSize(), height());
+		
+		for (int i = 0; i <= columns; i++)
+			gC.strokeLine(translateX(i), translateY(0), translateX(i), lastColumn());
+		for (int i = 0; i <= rows; i++) {
+			gC.strokeLine(translateX(0), translateY(i), lastRow(), translateY(i));
+		}
 	}
-	private double verticalPadding;
-	private double height;
+	private double verticalTopMargin,verticalBottomMargin;
 	private int rows, columns;
 	private double xPos, yPos;
 	private double borderWidth;
