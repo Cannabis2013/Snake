@@ -7,27 +7,36 @@ import javafx.scene.paint.Color;
 
 public class LevelObject extends MWidget {
 	
-	public LevelObject(MainWindow parent, int Rows, int Columns, int BlockSize) {
+	public LevelObject(MainWindow parent, int Rows, int Columns) {
 		super(parent);
 		rows = Rows;
 		columns = Columns;
-		blockSize = BlockSize;
 		borderWidth = 20;
+		height = Parent().Height() - 2*borderWidth - 50;
+		xPos = (int) Parent().Width()*0.5 - 0.5*columns*BlockSize();
+		yPos = Parent().Height()*0.5 - 0.5*rows*BlockSize();
+	}
+	
+	public void setBorderWidth(double w)
+	{
+		borderWidth = w;
 	}
 	
 	public int BlockSize()
 	{
-		return blockSize;
+		return (int)height/rows;
 	}
+	
+	// Translate grid coordinates to global coordinates
 	
 	public double translateX(double x)
 	{
-		return  Parent().Width()*0.5 - 0.5*columns*blockSize + x*blockSize;
+		return  xPos + x*BlockSize();
 	}
 	
 	public double translateY(double y)
 	{
-		return  Parent().Height()*0.5 - 0.5*rows*blockSize + y*blockSize;
+		return  yPos + y*BlockSize();
 	}
 	
 	public PointD translate(double x, double y)
@@ -41,8 +50,8 @@ public class LevelObject extends MWidget {
 	public PointD translate(PointD coords)
 	{
 		double x = coords.X(), y = coords.Y(),
-				 tx = Parent().Width()*0.5 - 0.5*columns*blockSize + x*blockSize,
-				ty = Parent().Height()*0.5 - 0.5*rows*blockSize + y*blockSize;
+				 tx = Parent().Width()*0.5 - 0.5*columns*BlockSize() + x*BlockSize(),
+				ty = Parent().Height()*0.5 - 0.5*rows*BlockSize() + y*BlockSize();
 		
 		return new PointD(tx, ty);
 	}
@@ -54,7 +63,7 @@ public class LevelObject extends MWidget {
 	
 	public double RightBound()
 	{
-		return Parent().Width()*0.5 - 0.5*columns*blockSize + columns*blockSize - blockSize;
+		return Parent().Width()*0.5 - 0.5*columns*BlockSize() + columns*BlockSize() - BlockSize();
 	}
 	
 	public double UpperBound()
@@ -62,9 +71,35 @@ public class LevelObject extends MWidget {
 		return  translateY(0);
 	}
 	
+	/*
+	 * Position section
+	 * 		- Get position
+	 * 		- Set position
+	 */
+	
+	public double x()
+	{
+		return xPos;
+	}
+	
+	public double y()
+	{
+		return yPos;
+	}
+	
+	public void setX(double x)
+	{
+		xPos = x;
+	}
+	
+	public void setY(double y)
+	{
+		yPos = y;
+	}
+	
 	public double LowerBound()
 	{
-		return  Parent().Height()*0.5 - 0.5*rows*blockSize + rows*blockSize;
+		return  Parent().Height()*0.5 - 0.5*rows*BlockSize() + rows*BlockSize();
 	}
 	
 	public int rowCount()
@@ -79,12 +114,12 @@ public class LevelObject extends MWidget {
 	
 	public double width()
 	{
-		return columns*blockSize;
+		return columns*BlockSize();
 	}
 	
 	public double height()
 	{
-		return rows*blockSize;
+		return rows*BlockSize();
 	}
 	
 	public void draw()
@@ -95,9 +130,9 @@ public class LevelObject extends MWidget {
 		
 		//Draw border
 		gC.setFill(Color.BROWN);
-		gC.fillRoundRect(translateX(0) - borderWidth, translateY(0) - borderWidth, columns*blockSize + borderWidth*2, height() + borderWidth*2,30,30);
+		gC.fillRoundRect(translateX(0) - borderWidth, translateY(0) - borderWidth, columns*BlockSize() + borderWidth*2, height() + borderWidth*2,30,30);
 		gC.setFill(Color.DARKGREEN);
-		gC.fillRect(translateX(0), translateY(0), columns*blockSize, height());
+		gC.fillRect(translateX(0), translateY(0), columns*BlockSize(), height());
 		
 		/*
 		 * Draw grid
@@ -107,17 +142,10 @@ public class LevelObject extends MWidget {
 		
 		gC.setFill(Color.BLACK);
 		gC.setLineWidth(2);
-		
-		// Draw rows
-		for (int i = 0; i <= rows; i++) {
-			gC.strokeLine(translateX(0), i*blockSize + translateY(0), translateX(0) + blockSize*columns, i*blockSize + translateY(0));
-		}
-		
-		// Draw columns
-		for (int i = 0; i <= columns; i++) {
-			gC.strokeLine(i*blockSize + translateX(0), translateY(0), i*blockSize + translateX(0), blockSize*rows + translateY(0));
-		}
+
 	}
-	private int rows, columns, blockSize;
+	private double height;
+	private int rows, columns;
+	private double xPos, yPos;
 	private double borderWidth;
 }

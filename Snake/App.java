@@ -38,22 +38,16 @@ public class App extends Application {
 		
 		Screen scr = Screen.getPrimary();
 		Dimension scrDim = new Dimension();
-		int blockSize = 0;
 		if(scr.getBounds().getWidth() <= 1280 || scr.getBounds().getHeight() <= 800)
-		{
 			scrDim.setSize(1024, 720);
-			blockSize = 15;
-		}
 		else
-		{
 			scrDim.setSize(1280, 800);
-			blockSize = 20;
-		}
 		
 		if(r < 5 || r > 100 || c < 5 || c > 100)
 			throw new IllegalArgumentException();
 		
-		MainWindow mW = new MainWindow(scrDim,r,c,blockSize);
+		MainWindow mW = new MainWindow(scrDim,r,c);
+
 		mW.show();
 		}
 	public void exec(String[] args)
@@ -72,7 +66,6 @@ public class App extends Application {
 		{
 			System.out.println("No arguments passed, standard values will be set.");
 		}
-		
 		a.exec(args);
 	}
 }

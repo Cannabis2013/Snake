@@ -11,13 +11,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 	
 public class MainWindow extends MWidget{
-	public  MainWindow(Dimension size,int gridRows, int gridColumns, int bSize) 
+	public  MainWindow(Dimension size,int gridRows, int gridColumns) 
 	{
 		super();
 		setFixedSize(size.getWidth(), size.getHeight());
 		setBackgroundColor(Color.DARKBLUE);
+		level = new LevelObject(this, gridRows, gridColumns);
 		pWorker = new PaintWorker(this);
-		gController = new GameController(this,gridRows,gridColumns, bSize);
+		gController = new GameController(this,level,gridRows,gridColumns);
 	}
 	
 	@Override
@@ -39,7 +40,7 @@ public class MainWindow extends MWidget{
 	public void draw()
 	{
 		paintClear();
-		gController.drawLevel();
+		level.draw();;
 		gController.drawObjects();
 		paintUpdate();
 	}
@@ -61,5 +62,6 @@ public class MainWindow extends MWidget{
 	}
 	
 	private GameController gController;
+	private LevelObject level;
 	private PaintWorker pWorker;
 }

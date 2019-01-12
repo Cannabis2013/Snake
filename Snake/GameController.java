@@ -11,10 +11,10 @@ import Snake.SnakeObject.direction;
 import javafx.scene.input.KeyCode;
 
 public class GameController extends MObject {
-	public GameController(MainWindow parent, int n, int m, int bSize) {
-		Parent = parent;	
+	public GameController(MainWindow parent,LevelObject lObject, int n, int m) {
+		Parent = parent;
+		mainLevel = lObject;	
 		objects = new ArrayList<>();
-		mainLevel = new LevelObject(parent,n,m,bSize);
 		initializeSnakePosition(m/2, n/2);
 		generateFoodObject();
 	}
@@ -91,16 +91,10 @@ public class GameController extends MObject {
 	 * Draw section
 	 */
 	
-	public void drawLevel()
-	{
-		mainLevel.draw();
-	}
-	
 	public void drawObjects()
 	{
-		for (MWidget obj : objects) {
+		for (MWidget obj : objects)
 			obj.draw();
-		}
 	}
 	
 	private direction DirectionFromKey(KeyCode key)

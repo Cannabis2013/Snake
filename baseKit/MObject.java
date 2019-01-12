@@ -4,7 +4,6 @@ package baseKit;
 public class MObject  {
 	
 	public MObject() {
-		
 		id++;
 	}
 	
