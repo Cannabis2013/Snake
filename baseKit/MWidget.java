@@ -8,7 +8,9 @@ import java.util.List;
 
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
@@ -137,21 +139,21 @@ public class MWidget extends MObject{
 	
 	public void setMinimumSize(int minWidth, int minHeight)
 	{
-		mainStage.setMaxHeight(minWidth);
-		mainStage.setMaxWidth(minHeight);
+		mainStage.setMaxWidth(minWidth);
+		mainStage.setMaxHeight(minHeight);
 	}
 	
 	public void setMaximumSize(int maxWidth, int maxHeight)
 	{
-		mainStage.setMaxHeight(maxWidth);
-		mainStage.setMaxWidth(maxHeight);
+		mainStage.setMaxWidth(maxWidth);
+		mainStage.setMaxHeight(maxHeight);
 	}
 	public void setFixedSize(double fixedWidth, double fixedHeight)
 	{
 		mainStage.setMaxHeight(fixedHeight);
 		mainStage.setMinHeight(fixedHeight);
-		mainStage.setMaxWidth(fixedWidth);
-		mainStage.setMinWidth(fixedWidth);
+		mainStage.setMaxWidth(fixedWidth + 17);
+		mainStage.setMinWidth(fixedWidth + 17);
 	}
 	
 	public void setBackground(Image img)
@@ -206,7 +208,6 @@ public class MWidget extends MObject{
 					w = (int) rect.getWidth();
 			mainStage.setPosition(w / 2 - halfWidth, h /2 - halfHeight);
 		}
-
 	}
 	
 	public void show() {
@@ -317,11 +318,7 @@ public class MWidget extends MObject{
 			int w = (int) mainStage.getWidth(), h = (int) mainStage.getHeight();
 			Dimension dim = new Dimension();
 			dim.setSize(w, h);
-			
-			customEvent cEvent = new customEvent(customEvent.RESIZE_EVENT);
-			cEvent.setDimension(dim);
-			
-			resizeEvent(cEvent);
+			resizeEvent(null);
 			
 			drawBoard = new Canvas(w, h);
 			painter = drawBoard.getGraphicsContext2D();
@@ -403,7 +400,7 @@ public class MWidget extends MObject{
 	protected void mouseReleaseEvent(MouseEvent event) 
 	{}
 	
-	protected void resizeEvent(customEvent event)
+	protected void resizeEvent(Event event)
 	{}
 	
 	
