@@ -4,8 +4,7 @@ import baseKit.MObject;
 
 public class OverlayController extends MObject {
 	public OverlayController(MainWindow parent) {
-		super();
-		Parent = parent;
+		
 	}
 	
 	public void setPoint(int p)
@@ -17,6 +16,13 @@ public class OverlayController extends MObject {
 	{
 		return gamePoint;
 	}
-	MainWindow Parent;
+	
+	public void drawBox()
+	{
+		
+	}
+	
+	
+	
 	private int gamePoint = 0;
 }

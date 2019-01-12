@@ -18,9 +18,13 @@ public class LevelObject extends MWidget {
 		verticalBottomMargin = 0;
 	}
 	
-	public void setDefaultLocation()
+	public void setHorizontalCenter()
 	{
+		
 		xPos = (int) Parent().Width()*0.5 - 0.5*columns*BlockSize() - borderWidth;
+	}
+	public void setVerticalCenter()
+	{
 		yPos = Parent().Height()*0.5 - 0.5*rows*BlockSize() - borderWidth;
 	}
 	
@@ -42,7 +46,7 @@ public class LevelObject extends MWidget {
 	
 	public double BlockSize()
 	{
-		return height()/rows;
+		return gridHeight()/rows;
 	}
 	
 	// Translate grid coordinates to global coordinates
@@ -75,6 +79,20 @@ public class LevelObject extends MWidget {
 	}
 	
 	/*
+	 * Widget dimensions
+	 */
+	@Override
+	public double Height()
+	{
+		return 2*BorderWidth() + gridHeight() + verticalBottomMargin + verticalTopMargin;
+	}
+	
+	@Override
+	public double Width() {
+		return gridWidth() + 2*borderWidth;
+	}
+	
+	/*
 	 * Boundaries section
 	 * Get left/right/upper/lower boundaries
 	 */
@@ -86,7 +104,7 @@ public class LevelObject extends MWidget {
 	
 	public double RightBound()
 	{
-		return translateX(0) + width() - BlockSize();
+		return translateX(0) + gridWidth() - BlockSize();
 	}
 	
 	public double UpperBound()
@@ -96,7 +114,7 @@ public class LevelObject extends MWidget {
 	
 	public double LowerBound()
 	{
-		return  translateY(0) + height();
+		return  translateY(0) + gridHeight();
 	}
 	
 	/*
@@ -123,6 +141,20 @@ public class LevelObject extends MWidget {
 	public void setY(double y)
 	{
 		yPos = y;
+	}
+	
+	/*
+	 * Offset object
+	 */
+	
+	public void MoveObjectHorizontally(double dx)
+	{
+		xPos += dx;
+	}
+	
+	public void moveObjectVertically(double dy)
+	{
+		yPos += dy;
 	}
 	
 	public double lastColumn()
@@ -161,12 +193,16 @@ public class LevelObject extends MWidget {
 		columns = c;
 	}
 	
-	public double width()
+	/*
+	 * Grid dimensions
+	 */
+	
+	public double gridWidth()
 	{
 		return columns*BlockSize();
 	}
 	
-	public double height()
+	private double gridHeight()
 	{
 		return Parent().Height() - 2*borderWidth - verticalTopMargin - verticalBottomMargin;
 	}
@@ -204,9 +240,9 @@ public class LevelObject extends MWidget {
 		
 		//Draw border
 		gC.setFill(Color.BROWN);
-		gC.fillRoundRect(translateX(0) - borderWidth, translateY(0) - borderWidth, columns*BlockSize() + borderWidth*2, height() + borderWidth*2,30,30);
+		gC.fillRoundRect(translateX(0) - borderWidth, translateY(0) - borderWidth, columns*BlockSize() + borderWidth*2, gridHeight() + borderWidth*2,30,30);
 		gC.setFill(Color.DARKGREEN);
-		gC.fillRect(translateX(0), translateY(0), columns*BlockSize(), height());
+		gC.fillRect(translateX(0), translateY(0), columns*BlockSize(), gridHeight());
 		
 		for (int i = 0; i <= columns; i++)
 			gC.strokeLine(translateX(i), translateY(0), translateX(i), lastColumn()+BlockSize());

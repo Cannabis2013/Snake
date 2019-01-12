@@ -20,18 +20,18 @@ public class myStage extends Stage {
 		return new Dimension(width, height);
 	}
 
-	public int width()
+	public double width()
 	{
 		return (int) getWidth();
 	}
 
-	public int height()
+	public double height()
 	{
 		return (int) getHeight();
 	}
 
 
-	public void setPosition(int x,int y)
+	public void setPosition(double x,double y)
 	{
 		setX(x);
 		setY(y);
@@ -41,20 +41,20 @@ public class myStage extends Stage {
 		setX(pos.getX());
 		setY(pos.getY());
 	}
-	public Point position()
+	public PointD position()
 	{
-		int X = (int) getX();
-		int Y = (int) getY();
+		double X =  getX();
+		double Y =  getY();
 
-		return new Point(X,Y);
+		return new PointD(X,Y);
 	}
 
-	public int X()
+	public double X()
 	{
 		return (int) getX();
 	}
 
-	public int Y()
+	public double Y()
 	{
 		return (int) getY();
 	}

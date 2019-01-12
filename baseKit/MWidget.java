@@ -28,13 +28,14 @@ import javafx.stage.Screen;
 public class MWidget extends MObject{
 
 	public MWidget() {
-		super();
 		drawBoard = new Canvas();
 		mainScene = new Scene(new Pane());
 		painter = drawBoard.getGraphicsContext2D();
 		backgroundImage = null;
-		childrens = new ArrayList<>();
+		children = new ArrayList<>();
 		P = null;
+		
+		print("Constructor called");
 		
 		paintUpdate();
 		setupInputEventHandlers();
@@ -43,13 +44,12 @@ public class MWidget extends MObject{
 	}
 	
 	public MWidget(MWidget parent) {
-		super();
 		
 		drawBoard = new Canvas();
 		mainScene = new Scene(new Pane());
 		painter = drawBoard.getGraphicsContext2D();
 		backgroundImage = null;
-		childrens = new ArrayList<>();
+		children = new ArrayList<>();
 		P = parent;
 		P.addChild(this);
 		
@@ -60,12 +60,11 @@ public class MWidget extends MObject{
 	}
 	public MWidget(Pane layout)
 	{
-		super();
 		drawBoard = new Canvas();
 		mainScene = new Scene(new Pane());
 		painter = drawBoard.getGraphicsContext2D();
 		backgroundImage = null;
-		childrens = new ArrayList<>();
+		children = new ArrayList<>();
 		
 		setLayout(layout);
 		setupResizeEvents();
@@ -84,12 +83,12 @@ public class MWidget extends MObject{
 		return mainStage.size();
 	}
 	
-	public int Width()
+	public double Width()
 	{
 		return mainStage.width();
 	}
 	
-	public int Height()
+	public double Height()
 	{
 		return mainStage.height() - 39;
 	}
@@ -110,12 +109,12 @@ public class MWidget extends MObject{
 			setFixedSize(Width(), Height());
 	}
 	
-	public int X()
+	public double X()
 	{
 		return mainStage.X();
 	}
 	
-	public int Y()
+	public double Y()
 	{
 		return mainStage.Y();
 	}
@@ -130,7 +129,7 @@ public class MWidget extends MObject{
 		mainStage.setY(y);
 	}
 	
-	public Point position()
+	public PointD position()
 	{
 		return mainStage.position();
 	}
@@ -197,8 +196,8 @@ public class MWidget extends MObject{
 
 		ObservableList<Screen> screens = Screen.getScreensForRectangle(cRect);
 
-		int halfWidth = mainStage.width()/2;
-		int halfHeight = mainStage.height() /2;
+		double halfWidth = mainStage.width()/2;
+		double halfHeight = mainStage.height() /2;
 
 		if(!screens.isEmpty())
 		{
@@ -283,17 +282,26 @@ public class MWidget extends MObject{
 	public void addChild(MWidget child)
 	{
 		if(child != null)
-			childrens.add(child);
+			children.add(child);
 		else
 			throw new IllegalArgumentException();
 	}
 	
-	public MObject ChildAt(int index)
+	public MWidget ChildAt(int index)
 	{
-		if(childrens.size() > index && index >= 0)
-			return childrens.get(index);
+		if(children.size() > index && index >= 0)
+			return children.get(index);
 		else
 			return null;
+	}
+	
+	public MWidget Child(String childName)
+	{
+		for (MWidget child : children) {
+			if(child.ObjectName().equals(childName))
+				return child;
+		}
+		return null;
 	}
 	
 	/*
@@ -304,7 +312,9 @@ public class MWidget extends MObject{
 	{}
 	
 	public void draw()
-	{};
+	{
+		paintClear();
+	};
 	
 	/*
 	 * Setup event methods.
@@ -416,7 +426,7 @@ public class MWidget extends MObject{
 	private myStage mainStage = new myStage();
 	private Scene mainScene;
 	protected Image backgroundImage;
-	private List<MWidget> childrens;
+	private List<MWidget> children;
 	protected MWidget P;
 	private Color backgroundColor;
 }

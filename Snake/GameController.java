@@ -11,9 +11,9 @@ import Snake.SnakeObject.direction;
 import javafx.scene.input.KeyCode;
 
 public class GameController extends MObject {
-	public GameController(MainWindow parent,LevelObject lObject) {
+	public GameController(MainWindow parent) {
 		Parent = parent;
-		level = lObject;	
+		level = (LevelObject) Parent.Child("Level");	
 		objects = new ArrayList<>();
 		initializeSnakePosition(0, 0);
 		generateFoodObject();
@@ -144,7 +144,7 @@ public class GameController extends MObject {
 			nPos.setX(level.translateX(0));
 		else if(nPos.X() < level.LeftBound())
 			nPos.setX(level.translateX((int) level.columnCount() - 1));
-		else if((nPos.Y() + obj.BlockWidth()) > level.LowerBound())
+		else if((nPos.Y() + obj.BlockWidth() - 1) > level.LowerBound())
 			nPos.setY(level.translateY(0));
 		else if(nPos.Y() + 1 < level.UpperBound())
 			nPos.setY(level.lastColumn());
@@ -156,14 +156,14 @@ public class GameController extends MObject {
 		
 		Random generator = new Random();
 		double x = generator.nextInt(level.columnCount()),
-				y = generator.nextInt(level.rowCount() -1);
+				y = generator.nextInt(level.rowCount());
 		
 		SnakeObject snake = (SnakeObject) Object("Snake");
 		
 		while(snake.containsCoordinate(level.translate(new PointD(x, y))))
 		{
 			x = generator.nextInt(level.columnCount());
-			y = generator.nextInt(level.rowCount() -1);
+			y = generator.nextInt(level.rowCount());
 		}
 		
 		

@@ -12,20 +12,17 @@ import javafx.scene.paint.Color;
 public class MainWindow extends MWidget{
 	public  MainWindow(Dimension size,int gridRows, int gridColumns) 
 	{
-		super();
 		setFixedSize(size.getWidth(), size.getHeight());
 		setBackgroundColor(Color.DARKBLUE);
 		
-		level = new LevelObject(this);
-		level.setRows(gridRows);;
-		level.setColumns(gridColumns);
-		level.setBorderWidth(20);
-		level.setverticalTopMargin(0);
-		level.setY(0);
-		level.setX(Width()*0.5 - level.width()*0.5 - level.BorderWidth());
+		/*
+		 * Setup the grid.
+		 */
+		lController = new LevelController(this, gridRows, gridColumns);
+		
 		
 		pWorker = new PaintWorker(this);
-		gController = new GameController(this,level);
+		gController = new GameController(this);
 	}
 	
 	@Override
@@ -46,8 +43,8 @@ public class MainWindow extends MWidget{
 	
 	public void draw()
 	{
-		paintClear();
-		level.draw();
+		super.draw();
+		lController.draw();
 		gController.drawObjects();
 		paintUpdate();
 	}
@@ -69,6 +66,6 @@ public class MainWindow extends MWidget{
 	}
 	
 	private GameController gController;
-	private LevelObject level;
+	private LevelController lController;
 	private PaintWorker pWorker;
 }

@@ -1,123 +1,71 @@
 package Snake;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import baseKit.MObject;
+import baseKit.MWidget;
 import baseKit.PointD;
 
 public class LevelController extends MObject {
 	public LevelController(MainWindow parent, int rows, int columns) {
-		super();
-		
+		Parent = parent;
+		levelObjects = new ArrayList<>();
 		level = new LevelObject(parent);
-		setRowCount(rows);
-		setColumnCount(columns);
-		level.setBorderWidth(20);
-		level.setverticalTopMargin(50);
-		level.setY(0);
-		level.setX(parent.Width()*0.5 - level.width()*0.5 - level.BorderWidth());
+		level.setObjectName("Level");
+		setupLevel(rows, columns, 0, 0, 20, 50, 50);
 		
+		levelObjects.add(level);
+		
+		Scoreboard box = new Scoreboard(Parent);
+		box.setObjectName("Scoreboard");
+		setupScoreBoard();
+		levelObjects.add(box);
 	}
 	
-	public double BorderWidth()
+	public LevelObject Level()
 	{
-		return level.BorderWidth();
+		return level;
 	}
 	
-	/*
-	 * Translation section
-	 * Map internal grid coordinates to coordinates relative to the MainWindow widget.
-	 */
-	
-	public double MapXToRelative(double x)
+	public void draw()
 	{
-		return level.translateX(x);
+		for (MWidget obj : levelObjects)
+			obj.draw();
 	}
 	
-	public double MapYToRelative(double y)
+	private void setupLevel(int rows, 
+			int columns,
+			double x, 
+			double y, 
+			double borderwidth, 
+			double vTopMargin, 
+			double vBottomMargin)
 	{
-		return level.translateY(y);
+		level.setRows(rows);
+		level.setColumns(columns);
+		level.setBorderWidth(borderwidth);
+		level.setverticalTopMargin(vTopMargin);
+		level.setVerticalBottomMargin(vBottomMargin);
+		level.setX(x);
+		level.setY(y);
+		
+		level.setHorizontalCenter();
+		level.MoveObjectHorizontally(150);
 	}
 	
-	public PointD MapToRelative(double x, double y)
+	private void setupScoreBoard()
 	{
-		return level.translate(x, y);
+		Scoreboard box = (Scoreboard) Parent.Child("Scoreboard");
+		box.setX(20);
+		box.setY(50);
+		box.setWidth(300);
+		box.setHeight(level.Height() - level.VerticalTopMargin());
+		box.setBorderWidth(20);
+		box.setRoundedCorners(20);
 	}
 	
-	public PointD MapToRelative(PointD coords)
-	{
-		return level.translate(coords);
-	}
-	
-	public double Height()
-	{
-		return level.height() + level.translateY(0);
-	}
-	
-	/*
-	 * Boundaries section
-	 * Get left/right/upper/lower boundaries
-	 */
-	
-	public double LeftBound()
-	{
-		return level.LeftBound();
-	}
-	
-	public double RightBound()
-	{
-		return level.RightBound();
-	}
-	
-	public double UpperBound()
-	{
-		return  level.UpperBound();
-	}
-	
-	public double LowerBound()
-	{
-		return  level.LowerBound();
-	}
-	
-	
-	/*
-	 * Set grid properties
-	 * 		- Get quadratic side lenght
-	 * 		- Get dimensions (Rowcount, ColumnCount)
-	 * 		- Set dimensions (Rowcount, ColumnCount)
-	 */
-	
-	public double BlockSize()
-	{
-		return level.BlockSize();
-	}
-	
-	public int Rows()
-	{
-		return level.rowCount();
-	}
-	
-	public int Columns()
-	{
-		return level.columnCount();
-	}
-	
-	public void setRowCount(int r)
-	{
-		level.setRows(r);
-	}
-	
-	public void setColumnCount(int c)
-	{
-		level.setColumns(c);
-	}
-	
-	/*
-	 * Calls LevelObject draw() method.
-	 */
-	
-	public void drawLevel()
-	{
-		level.draw();
-	}
-	
+	MainWindow Parent;
 	private LevelObject level;
+	List<MWidget> levelObjects;
 }
