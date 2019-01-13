@@ -17,8 +17,12 @@ public class Scoreboard extends MWidget{
 		borderColor = Color.BROWN;
 		fillColor = Color.GRAY;
 		fillTextColor = Color.BLACK;
-		keyboardShortcuts = Arrays.asList("CTRL + Q = Quit", "R = Reset", "Left arrow key = Move left", "Right arrow key = Move right", "Up arrow key = Move up", "Down arrow key = Move down");
-		
+		keyboardShortcuts = Arrays.asList("CTRL + Q = Quit", 
+				"R = Reset", 
+				"Left arrow key = Move left", 
+				"Right arrow key = Move right", 
+				"Up arrow key = Move up", 
+				"Down arrow key = Move down");
 		
 		setWidth(50);
 		setHeight(100);
