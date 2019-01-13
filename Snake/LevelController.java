@@ -57,10 +57,12 @@ public class LevelController extends MObject {
 	private void setupScoreBoard()
 	{
 		Scoreboard box = (Scoreboard) Parent.Child("Scoreboard");
+		if(box == null)
+			return;
 		box.setX(20);
 		box.setY(50);
 		box.setWidth(300);
-		box.setHeight(level.Height() - level.VerticalTopMargin());
+		box.setHeight(Parent.Height() - 60 );
 		box.setBorderWidth(20);
 		box.setRoundedCorners(20);
 	}

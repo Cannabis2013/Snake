@@ -8,15 +8,17 @@ import baseKit.MObject;
 import baseKit.MWidget;
 import baseKit.PointD;
 import Snake.SnakeObject.direction;
+import javafx.application.Platform;
 import javafx.scene.input.KeyCode;
 
 public class GameController extends MObject {
 	public GameController(MainWindow parent) {
 		Parent = parent;
-		level = (LevelObject) Parent.Child("Level");	
+		level = (LevelObject) Parent.Child("Level");
 		objects = new ArrayList<>();
-		initializeSnakePosition(0, 0);
+		initializeSnakePosition(level.columnCount()/2, level.rowCount()/2);
 		generateFoodObject();
+		
 	}
 	
 	public void initializeSnakePosition(double x, double y)
