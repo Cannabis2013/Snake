@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 
 public class LevelObject extends MWidget {
 	
-	public LevelObject(MainWindow parent) {
+	public LevelObject(PaintController parent) {
 		super(parent);
 		rows = 0;
 		columns = 0;

@@ -2,17 +2,23 @@ package Snake;
 
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import baseKit.MWidget;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class Scoreboard extends MWidget{
-	public Scoreboard(MainWindow parent) {
+	public Scoreboard(PaintController parent) {
 		super(parent);
 		borderColor = Color.BROWN;
 		fillColor = Color.GRAY;
 		fillTextColor = Color.BLACK;
+		keyboardShortcuts = Arrays.asList("CTRL + Q = Quit", "R = Reset", "Left arrow key = Move left", "Right arrow key = Move right", "Up arrow key = Move up", "Down arrow key = Move down");
+		
 		
 		setWidth(50);
 		setHeight(100);
@@ -68,15 +74,24 @@ public class Scoreboard extends MWidget{
 		painter.setFill(fillColor);
 		painter.fillRect(ContentX(), ContentY(), ContentWidth(), ContentHeight());
 		
+		// Draw headline
 		painter.setFill(Color.BLACK);
 		Font txtHeading = new Font(48);
 		painter.setFont(txtHeading);
-		painter.fillText("Scoreboard", ContentX() + 7.5, ContentY() + 48);
+		
+		double x = ContentX() + 7.5,
+				y = ContentY() + 48;
+		
+		painter.fillText("Scoreboard", x, y);
 		
 		painter.setLineWidth(5);
 		
-		painter.strokeLine(ContentX() + 2.5, ContentY() + 64, ContentX() + ContentWidth() - 2.5, ContentY() + 64);
+		y += 24;
+		// Draw line seperator
+		painter.strokeLine(ContentX() + 2.5, y, ContentX() + ContentWidth() - 2.5, y);
 		painter.setLineWidth(1);
+		
+		
 		
 		Font txtNormal = new Font(24);
 		painter.setFont(txtNormal);
@@ -84,11 +99,33 @@ public class Scoreboard extends MWidget{
 		Snake = (SnakeObject) P.Child("Snake");
 		String txt = String.format("Player scorer: %d ", Snake.Lenght());
 		
-		painter.fillText(txt, ContentX() + 7.5, ContentY() + 128);
+		y += 32;
 		
+		painter.fillText(txt, x, y);
+		
+		y += 32;
+		
+		painter.setLineWidth(3);
+		painter.strokeLine(ContentX() + 2.5, y, ContentX() + ContentWidth() - 2.5, y);
+		painter.setLineWidth(1);
+		
+		y += 32;
+		txtHeading = new Font(28);
+		
+		painter.setFont(txtHeading);
+		painter.fillText("Keyboard shortcuts", x, y);
+		
+		txtNormal = new Font(16);
+		
+		painter.setFont(txtNormal);
+		y += 32;
+		
+		for (double i = 0, n = y; i < keyboardShortcuts.size(); i++, n += 32)
+			painter.fillText(keyboardShortcuts.get((int) i), x, n);
 	}
 	private double borderWidth = 1, borderRadius = 0;
 	private Color borderColor, fillColor, fillTextColor;
 	private SnakeObject Snake;
+	List<String> keyboardShortcuts;
 
 }

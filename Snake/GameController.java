@@ -12,7 +12,7 @@ import javafx.application.Platform;
 import javafx.scene.input.KeyCode;
 
 public class GameController extends MObject {
-	public GameController(MainWindow parent) {
+	public GameController(PaintController parent) {
 		Parent = parent;
 		level = (LevelObject) Parent.Child("Level");
 		objects = new ArrayList<>();
@@ -176,6 +176,6 @@ public class GameController extends MObject {
 	}
 	
 	private List<MWidget> objects;
-	private MainWindow Parent;
+	private PaintController Parent;
 	private LevelObject level;
 }

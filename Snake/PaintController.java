@@ -9,18 +9,19 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 	
-public class MainWindow extends MWidget{
-	public  MainWindow(Dimension size,int gridRows, int gridColumns) 
+public class PaintController extends MWidget{
+	public  PaintController(Dimension size,int gridRows, int gridColumns) 
 	{
-		setFixedSize(size.getWidth(), size.getHeight());
+		//setFixedSize(size.getWidth(), size.getHeight());
 		setBackgroundColor(Color.DARKBLUE);
+		setFullScreen(true);
+		super.show();
+		System.out.println(Height());
 		
 		/*
-		 * Setup the grid.
+		 * Initialize the controllers
 		 */
 		lController = new LevelController(this, gridRows, gridColumns);
-		
-		
 		pWorker = new PaintWorker(this);
 		gController = new GameController(this);
 	}
@@ -28,7 +29,8 @@ public class MainWindow extends MWidget{
 	@Override
 	protected void keyPressEvent(KeyEvent event) 
 	{
-		if(event.getCode() == KeyCode.ESCAPE)
+		
+		if(event.getCode() == KeyCode.Q && event.isControlDown())
 		{
 			pWorker.Stop();
 			Platform.exit();
@@ -41,26 +43,21 @@ public class MainWindow extends MWidget{
 		//print(String.format("x: %1$,.2f y: %2$,.2f", event.getX(),event.getY()));
 	}
 	
-	public void draw()
-	{
-		super.draw();
-		lController.draw();
-		gController.drawObjects();
-		paintUpdate();
-	}
-	
-	public void drawEvent() 
+	public void draw() 
 	{
 		Platform.runLater(new Runnable() {
 			public void run() {
-				draw();
+				paintClear();
+				lController.draw();
+				gController.drawObjects();
+				paintUpdate();
 			}
 		});
 	}
 	
 	public void show()
 	{
-		super.show();
+		
 		draw();
 		pWorker.start();
 	}

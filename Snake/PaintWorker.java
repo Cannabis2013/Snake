@@ -12,7 +12,7 @@ public class PaintWorker extends Thread {
 	public void run() {
 		while(!stopThread)
 		{
-			Parent.drawEvent();
+			Parent.draw();
 			try {
 				sleep(pollResolution);
 			} catch (InterruptedException e) {

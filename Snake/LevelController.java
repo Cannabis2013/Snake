@@ -8,7 +8,7 @@ import baseKit.MWidget;
 import baseKit.PointD;
 
 public class LevelController extends MObject {
-	public LevelController(MainWindow parent, int rows, int columns) {
+	public LevelController(PaintController parent, int rows, int columns) {
 		Parent = parent;
 		levelObjects = new ArrayList<>();
 		level = new LevelObject(parent);
@@ -67,7 +67,7 @@ public class LevelController extends MObject {
 		box.setRoundedCorners(20);
 	}
 	
-	MainWindow Parent;
+	PaintController Parent;
 	private LevelObject level;
 	List<MWidget> levelObjects;
 }

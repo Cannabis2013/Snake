@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.stream.events.XMLEvent;
 
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
@@ -19,6 +20,8 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -90,6 +93,9 @@ public class MWidget extends MObject{
 	
 	public double Height()
 	{
+		if(Hint == sizeHint.fullScreen)
+			return mainStage.height();
+		else
 		return mainStage.height() - 39;
 	}
 	
@@ -105,8 +111,7 @@ public class MWidget extends MObject{
 	
 	public void setSizeHint(sizeHint hint)
 	{
-		if(hint == sizeHint.fixedSize)
-			setFixedSize(Width(), Height());
+		Hint = hint;
 	}
 	
 	public double X()
@@ -140,6 +145,7 @@ public class MWidget extends MObject{
 	{
 		mainStage.setMaxWidth(minWidth);
 		mainStage.setMaxHeight(minHeight);
+		mainStage.setFullScreen(true);
 	}
 	
 	public void setMaximumSize(int maxWidth, int maxHeight)
@@ -153,6 +159,13 @@ public class MWidget extends MObject{
 		mainStage.setMinHeight(fixedHeight);
 		mainStage.setMaxWidth(fixedWidth + 17);
 		mainStage.setMinWidth(fixedWidth + 17);
+	}
+	
+	public void setFullScreen(boolean full)
+	{
+		mainStage.setFullScreen(true);
+		mainStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+		setSizeHint(sizeHint.fullScreen);
 	}
 	
 	public void setBackground(Image img)
@@ -189,6 +202,7 @@ public class MWidget extends MObject{
 		Pane grid = new Pane(drawBoard);
 		setLayout(grid);
 	}
+	
 	private void defaultLocation()
 	{
 		mainStage.setSize(400, 400);
@@ -313,13 +327,8 @@ public class MWidget extends MObject{
 	 * Draw related section.
 	 */
 	
-	public void drawEvent()
-	{}
-	
 	public void draw()
-	{
-		paintClear();
-	};
+	{};
 	
 	/*
 	 * Setup event methods.
@@ -423,15 +432,16 @@ public class MWidget extends MObject{
 	 * Member variable/property section.
 	 */
 	
-	public enum sizeHint{maxSize,fixedSize,minimumSize};
+	public enum sizeHint{maxSize,fixedSize,minimumSize, fullScreen, normal};
 	
+	private sizeHint Hint = sizeHint.normal;
 	protected Canvas drawBoard;
-	private GraphicsContext painter;
 	protected Pane ui;
-	private myStage mainStage = new myStage();
-	private Scene mainScene;
 	protected Image backgroundImage;
-	private List<MWidget> children;
 	protected MWidget P;
+	private myStage mainStage = new myStage();
+	private GraphicsContext painter;
+	private Scene mainScene;
+	private List<MWidget> children;
 	private Color backgroundColor;
 }
