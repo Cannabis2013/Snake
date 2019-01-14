@@ -23,9 +23,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 
-public class MWidget extends MObject{
+public class View extends Object{
 
-	public MWidget() {
+	public View() {
 		drawBoard = new Canvas();
 		mainScene = new Scene(new Pane());
 		painter = drawBoard.getGraphicsContext2D();
@@ -33,7 +33,6 @@ public class MWidget extends MObject{
 		children = new ArrayList<>();
 		P = null;
 		
-		print("Constructor called");
 		
 		paintUpdate();
 		setupInputEventHandlers();
@@ -41,7 +40,7 @@ public class MWidget extends MObject{
 		defaultLocation();
 	}
 	
-	public MWidget(MWidget parent) {
+	public View(View parent) {
 		
 		drawBoard = new Canvas();
 		mainScene = new Scene(new Pane());
@@ -56,7 +55,7 @@ public class MWidget extends MObject{
 		setupResizeEvents();
 		defaultLocation();
 	}
-	public MWidget(Pane layout)
+	public View(Pane layout)
 	{
 		drawBoard = new Canvas();
 		mainScene = new Scene(new Pane());
@@ -256,7 +255,7 @@ public class MWidget extends MObject{
 	protected void setLayout(String path)
 	{
 		try {
-			Parent ui = FXMLLoader.load(MWidget.class.getResource(path));
+			Parent ui = FXMLLoader.load(View.class.getResource(path));
 			
 			mainScene.setRoot(ui);
 			mainStage.setScene(mainScene);
@@ -278,17 +277,17 @@ public class MWidget extends MObject{
 			return false;
 	}
 	
-	public void setParent(MWidget parent)
+	public void setParent(View parent)
 	{
 		P = parent;
 	}
 	
-	public MWidget Parent()
+	public View Parent()
 	{
 		return P;
 	}
 	
-	public void addChild(MWidget child)
+	public void addChild(View child)
 	{
 		if(child != null)
 			children.add(child);
@@ -296,7 +295,7 @@ public class MWidget extends MObject{
 			throw new IllegalArgumentException();
 	}
 	
-	public MWidget ChildAt(int index)
+	public View ChildAt(int index)
 	{
 		if(children.size() > index && index >= 0)
 			return children.get(index);
@@ -304,16 +303,16 @@ public class MWidget extends MObject{
 			return null;
 	}
 	
-	public MWidget Child(String childName)
+	public View Child(String childName)
 	{
-		for (MWidget child : children) {
+		for (View child : children) {
 			if(child.ObjectName().equals(childName))
 				return child;
 		}
 		return null;
 	}
 	
-	public void RemoveChild(MWidget child)
+	public void RemoveChild(View child)
 	{
 		children.remove(child);
 	}
@@ -422,7 +421,6 @@ public class MWidget extends MObject{
 	protected void resizeEvent(Event event)
 	{}
 	
-	
 	/*
 	 * Member variable/property section.
 	 */
@@ -433,10 +431,10 @@ public class MWidget extends MObject{
 	protected Canvas drawBoard;
 	protected Pane ui;
 	protected Image backgroundImage;
-	protected MWidget P;
+	protected View P;
 	private myStage mainStage = new myStage();
 	private GraphicsContext painter;
 	private Scene mainScene;
-	private List<MWidget> children;
+	private List<View> children;
 	private Color backgroundColor;
 }

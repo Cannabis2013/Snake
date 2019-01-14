@@ -52,15 +52,14 @@ public class App extends Application {
 		
 		Screen scr = Screen.getPrimary();
 		
-		PaintController mW = null;
+		MainView mW = null;
 		
 		if(scr.getBounds().getWidth() <= 1280 || scr.getBounds().getHeight() <= 800)
-			mW = new PaintController(new Dimension(1024, 720), r, c);
+			mW = new MainView(new Dimension(1024, 720), r, c);
 		else
-			mW = new PaintController(new Dimension(1280, 800), r, c);
+			mW = new MainView(new Dimension(1280, 800), r, c);
 		
 		mW.show();
-		System.out.println(mW.Height());
 		}
 	public void exec(String[] args)
 	{

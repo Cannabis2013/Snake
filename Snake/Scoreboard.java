@@ -5,13 +5,13 @@ package Snake;
 import java.util.Arrays;
 import java.util.List;
 
-import baseKit.MWidget;
+import baseKit.View;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public class Scoreboard extends MWidget{
-	public Scoreboard(PaintController parent) {
+public class Scoreboard extends View{
+	public Scoreboard(MainView parent) {
 		super(parent);
 		borderColor = Color.BROWN;
 		fillColor = Color.GRAY;

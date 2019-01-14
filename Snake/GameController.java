@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import baseKit.MObject;
-import baseKit.MWidget;
+import baseKit.Object;
+import baseKit.View;
 import baseKit.PointD;
 import Snake.SnakeObject.direction;
 import javafx.scene.input.KeyCode;
 
-public class GameController extends MObject {
-	public GameController(PaintController parent) {
+public class GameController extends Object {
+	public GameController(MainView parent) {
 		Parent = parent;
 		level = (LevelObject) Parent.Child("Level");
 		objects = new ArrayList<>();
@@ -29,7 +29,7 @@ public class GameController extends MObject {
 		addObject(snake);
 	}
 	
-	public void addObject(MWidget obj)
+	public void addObject(View obj)
 	{
 		objects.add(obj);
 	}
@@ -40,7 +40,7 @@ public class GameController extends MObject {
 		
 		if(key == KeyCode.R)
 		{
-			objects.remove((MObject) snake);
+			objects.remove((Object) snake);
 			Parent.RemoveChild(snake);
 			snake = new SnakeObject(Parent,1);
 			initializeSnakePosition(level.columnCount()/2, level.rowCount()/2);
@@ -79,7 +79,7 @@ public class GameController extends MObject {
 	
 	public void drawObjects()
 	{
-		for (MWidget obj : objects)
+		for (View obj : objects)
 			obj.draw();
 	}
 	
@@ -157,9 +157,9 @@ public class GameController extends MObject {
 		addObject(obj);
 	}
 	
-	private MWidget Object(String objectName)
+	private View Object(String objectName)
 	{
-		for (MWidget obj : objects) {
+		for (View obj : objects) {
 			if(obj.ObjectName().equals(objectName))
 				return obj;
 		}
@@ -168,12 +168,12 @@ public class GameController extends MObject {
 	
 	private void removeObject(String objectName)
 	{
-		MWidget obj = Object(objectName);
+		View obj = Object(objectName);
 		if(obj != null)
 			objects.remove(obj);
 	}
 	
-	private List<MWidget> objects;
-	private PaintController Parent;
+	private List<View> objects;
+	private MainView Parent;
 	private LevelObject level;
 }

@@ -3,11 +3,11 @@ package Snake;
 import java.util.ArrayList;
 import java.util.List;
 
-import baseKit.MObject;
-import baseKit.MWidget;
+import baseKit.Object;
+import baseKit.View;
 
-public class LevelController extends MObject {
-	public LevelController(PaintController parent, int rows, int columns) {
+public class LevelController extends Object {
+	public LevelController(MainView parent, int rows, int columns) {
 		Parent = parent;
 		levelObjects = new ArrayList<>();
 		level = new LevelObject(parent);
@@ -25,7 +25,7 @@ public class LevelController extends MObject {
 	
 	public void draw()
 	{
-		for (MWidget obj : levelObjects)
+		for (View obj : levelObjects)
 			obj.draw();
 	}
 	
@@ -62,7 +62,7 @@ public class LevelController extends MObject {
 		box.setRoundedCorners(20);
 	}
 	
-	private PaintController Parent;
+	private MainView Parent;
 	private LevelObject level;
-	private List<MWidget> levelObjects;
+	private List<View> levelObjects;
 }

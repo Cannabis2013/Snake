@@ -3,12 +3,12 @@ package Snake;
 import java.util.ArrayList;
 import java.util.List;
 import baseKit.PointD;
-import baseKit.MWidget;
+import baseKit.View;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class SnakeObject extends MWidget {
-	public SnakeObject(MWidget parent, int l) {
+public class SnakeObject extends View {
+	public SnakeObject(View parent, int l) {
 		super(parent);
 		bodyCoordinates = new ArrayList<PointD>();
 		currentDirection = direction.left;

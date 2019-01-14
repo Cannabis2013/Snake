@@ -3,7 +3,7 @@ package baseKit;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class PointD extends MObject{
+public class PointD extends Object{
 	
 	public PointD(double X, double Y) {
 		x = X;

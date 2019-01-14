@@ -1,10 +1,10 @@
 package Snake;
 
-import baseKit.MWidget;
+import baseKit.View;
 
 public class PaintWorker extends Thread {
 
-	public PaintWorker(MWidget parent) {
+	public PaintWorker(View parent) {
 		Parent = parent;
 	}
 	
@@ -41,5 +41,5 @@ public class PaintWorker extends Thread {
 	
 	private boolean stopThread = false;
 	private int pollResolution = 10;
-	private MWidget Parent;
+	private View Parent;
 }

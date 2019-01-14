@@ -1,13 +1,13 @@
 package Snake;
 
-import baseKit.MWidget;
+import baseKit.View;
 import baseKit.PointD;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class FoodObject extends MWidget {
+public class FoodObject extends View {
 
-	public FoodObject(MWidget parent, PointD pos, double Width) {
+	public FoodObject(View parent, PointD pos, double Width) {
 		super(parent);
 		setWidth(Width);
 		setHeight(Width);

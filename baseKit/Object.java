@@ -1,28 +1,10 @@
 package baseKit;
 
 
-public class MObject  {
+public class Object  {
 	
-	public MObject() {
+	public Object() {
 		id++;
-	}
-	
-	protected void print(String txt)
-	{
-		System.out.println(txt);
-	}
-	
-	protected void print(String txt, printMode mode)
-	{
-		if (mode == printMode.lineBreak)
-			System.out.println(txt);
-		else
-			System.out.print(txt);
-	}
-	
-	protected void printCoordinates(double x, double y)
-	{
-		print(String.format("x: %1$,.10f y: %2$,.10f", x,y));
 	}
 	
 	/*
@@ -31,7 +13,6 @@ public class MObject  {
 	
 	public String ClassName()
 	{
-		print(getClass().toString(),printMode.lineBreak);
 		return getClass().toString();
 	}
 	
@@ -50,6 +31,4 @@ public class MObject  {
 	private static int id = 1;
 	
 	// Trash methods. Just ignore.
-
-	
 }

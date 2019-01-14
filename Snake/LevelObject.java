@@ -1,13 +1,13 @@
 package Snake;
 
-import baseKit.MWidget;
+import baseKit.View;
 import baseKit.PointD;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class LevelObject extends MWidget {
+public class LevelObject extends View {
 	
-	public LevelObject(PaintController parent) {
+	public LevelObject(MainView parent) {
 		super(parent);
 		rows = 0;
 		columns = 0;
@@ -229,7 +229,7 @@ public class LevelObject extends MWidget {
 	
 	/*
 	 * Draw section
-	 * Re-implements MWidget.draw()
+	 * Re-implements View.draw()
 	 */
 	
 	public void draw()
@@ -251,6 +251,7 @@ public class LevelObject extends MWidget {
 		}
 	}
 	
+	enum DisplayMode {strongGitter, weakGitter, noGitter};
 	private double verticalTopMargin,verticalBottomMargin;
 	private int rows, columns;
 	private double xPos, yPos;

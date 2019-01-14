@@ -2,21 +2,20 @@ package Snake;
 
 
 import java.awt.Dimension;
-import baseKit.MWidget;
+import baseKit.View;
 import javafx.application.Platform;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 	
-public class PaintController extends MWidget{
-	public  PaintController(Dimension size,int gridRows, int gridColumns) 
+public class MainView extends View{
+	public  MainView(Dimension size,int gridRows, int gridColumns) 
 	{
 		//setFixedSize(size.getWidth(), size.getHeight());
 		setBackgroundColor(Color.DARKBLUE);
 		setFullScreen(true);
 		super.show();
-		System.out.println(Height());
 		
 		/*
 		 * Initialize the controllers
