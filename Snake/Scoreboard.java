@@ -129,6 +129,6 @@ public class Scoreboard extends View{
 	private double borderWidth = 1, borderRadius = 0;
 	private Color borderColor, fillColor, fillTextColor;
 	private SnakeObject Snake;
-	List<String> keyboardShortcuts;
+	private List<String> keyboardShortcuts;
 
 }
