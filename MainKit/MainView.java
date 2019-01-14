@@ -1,8 +1,8 @@
-package Snake;
+package MainKit;
 
 
 import java.awt.Dimension;
-import baseKit.View;
+import BaseKit.View;
 import javafx.application.Platform;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;

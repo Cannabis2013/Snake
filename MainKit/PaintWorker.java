@@ -1,6 +1,6 @@
-package Snake;
+package MainKit;
 
-import baseKit.View;
+import BaseKit.View;
 
 public class PaintWorker extends Thread {
 

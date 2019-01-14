@@ -1,4 +1,4 @@
-package baseKit;
+package BaseKit;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

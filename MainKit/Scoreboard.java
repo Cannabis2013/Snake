@@ -1,11 +1,11 @@
-package Snake;
+package MainKit;
 
 
 
 import java.util.Arrays;
 import java.util.List;
 
-import baseKit.View;
+import BaseKit.View;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;

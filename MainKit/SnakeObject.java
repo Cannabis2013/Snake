@@ -1,9 +1,9 @@
-package Snake;
+package MainKit;
 
 import java.util.ArrayList;
 import java.util.List;
-import baseKit.PointD;
-import baseKit.View;
+import BaseKit.PointD;
+import BaseKit.View;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 

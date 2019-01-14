@@ -1,13 +1,13 @@
-package Snake;
+package MainKit;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import baseKit.Object;
-import baseKit.View;
-import baseKit.PointD;
-import Snake.SnakeObject.direction;
+import BaseKit.Object;
+import BaseKit.View;
+import BaseKit.PointD;
+import MainKit.SnakeObject.direction;
 import javafx.scene.input.KeyCode;
 
 public class GameController extends Object {

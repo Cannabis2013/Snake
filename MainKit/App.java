@@ -1,4 +1,4 @@
-package Snake;
+package MainKit;
 
 import java.awt.Dimension;
 import java.util.List;

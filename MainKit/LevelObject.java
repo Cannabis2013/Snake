@@ -1,7 +1,7 @@
-package Snake;
+package MainKit;
 
-import baseKit.View;
-import baseKit.PointD;
+import BaseKit.View;
+import BaseKit.PointD;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
