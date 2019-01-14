@@ -8,7 +8,6 @@ import baseKit.MObject;
 import baseKit.MWidget;
 import baseKit.PointD;
 import Snake.SnakeObject.direction;
-import javafx.application.Platform;
 import javafx.scene.input.KeyCode;
 
 public class GameController extends MObject {

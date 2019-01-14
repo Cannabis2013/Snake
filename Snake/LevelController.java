@@ -5,7 +5,6 @@ import java.util.List;
 
 import baseKit.MObject;
 import baseKit.MWidget;
-import baseKit.PointD;
 
 public class LevelController extends MObject {
 	public LevelController(PaintController parent, int rows, int columns) {
