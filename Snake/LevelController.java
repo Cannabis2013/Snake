@@ -22,11 +22,7 @@ public class LevelController extends MObject {
 		setupScoreBoard();
 		levelObjects.add(box);
 	}
-	
-	public LevelObject Level()
-	{
-		return level;
-	}
+
 	
 	public void draw()
 	{
@@ -67,7 +63,7 @@ public class LevelController extends MObject {
 		box.setRoundedCorners(20);
 	}
 	
-	PaintController Parent;
+	private PaintController Parent;
 	private LevelObject level;
-	List<MWidget> levelObjects;
+	private List<MWidget> levelObjects;
 }

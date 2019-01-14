@@ -34,24 +34,7 @@ public class GameController extends MObject {
 	{
 		objects.add(obj);
 	}
-	
-	private MWidget Object(String objectName)
-	{
-		for (MWidget obj : objects) {
-			if(obj.ObjectName().equals(objectName))
-				return obj;
-		}
-		return null;
-	}
-	
-	private void removeObject(String objectName)
-	{
-		MWidget obj = Object(objectName);
-		if(obj != null)
-			objects.remove(obj);
-	}
-	
-	
+		
 	public void keyEvent(KeyCode key)
 	{
 		SnakeObject snake = (SnakeObject) Object("Snake");
@@ -173,6 +156,22 @@ public class GameController extends MObject {
 		FoodObject obj = new FoodObject(Parent,new PointD(level.translateX(x),level.translateY(y)),level.BlockSize());
 		obj.setObjectName("Food");
 		addObject(obj);
+	}
+	
+	private MWidget Object(String objectName)
+	{
+		for (MWidget obj : objects) {
+			if(obj.ObjectName().equals(objectName))
+				return obj;
+		}
+		return null;
+	}
+	
+	private void removeObject(String objectName)
+	{
+		MWidget obj = Object(objectName);
+		if(obj != null)
+			objects.remove(obj);
 	}
 	
 	private List<MWidget> objects;

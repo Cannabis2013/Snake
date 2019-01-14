@@ -59,12 +59,6 @@ public class PointD extends MObject{
 		return (round(compare.X(),2) == round(X(),2) && round(compare.Y(),2) == round(Y(),2));
 	}
 	
-	public boolean WithinRange(PointD compare, double Range)
-	{
-		return ((compare.X() + Range == X() ||  compare.X() - Range == X()) &&  
-				(compare.Y() + Range == Y()) || compare.Y() - Range == Y());
-	}
-	
 	public PointD copy()
 	{
 		return new PointD(x, y);
@@ -76,11 +70,6 @@ public class PointD extends MObject{
 	    BigDecimal bd = new BigDecimal(value);
 	    bd = bd.setScale(places, RoundingMode.HALF_UP);
 	    return bd.doubleValue();
-	}
-	
-	public void printCoordinates()
-	{
-		print(String.format("x = %1$,.2f y = %2$,.2f", x,y));
 	}
 	
 	private double x;

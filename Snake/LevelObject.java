@@ -250,6 +250,7 @@ public class LevelObject extends MWidget {
 			gC.strokeLine(translateX(0), translateY(i), lastRow() + BlockSize(), translateY(i));
 		}
 	}
+	
 	private double verticalTopMargin,verticalBottomMargin;
 	private int rows, columns;
 	private double xPos, yPos;

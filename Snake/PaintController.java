@@ -57,7 +57,6 @@ public class PaintController extends MWidget{
 	
 	public void show()
 	{
-		
 		draw();
 		pWorker.start();
 	}
