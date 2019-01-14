@@ -100,7 +100,7 @@ public class Scoreboard extends View{
 		painter.setFont(txtNormal);
 		
 		Snake = (SnakeObject) P.Child("Snake");
-		String txt = String.format("Player scorer: %d ", Snake.Lenght());
+		String txt = String.format("Player scorer: %d ", Snake.Lenght() - 1);
 		
 		y += 32;
 		
