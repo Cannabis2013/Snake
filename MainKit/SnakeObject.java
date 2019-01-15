@@ -129,6 +129,7 @@ public class SnakeObject extends View {
 	{
 		if(bodyCoordinates.isEmpty())
 			return;
+		
 		paintBody();
 	}
 	
@@ -136,12 +137,24 @@ public class SnakeObject extends View {
 	{
 		GraphicsContext gC = P.getPainter();
 		
-		gC.setFill(Color.DARKGRAY);
+		PointD pos = bodyCoordinates.get(bodyCoordinates.size() -1);
+		gC.setFill(Color.BLUE);
+		gC.fillRoundRect(pos.X(), pos.Y(), width, width,45, 45);
+		gC.setFill(Color.BLACK);
+		if(CurrentDirection() == direction.left)
+			gC.fillRect(pos.X() + width/2, pos.Y(), width/2, width);
+		else if(CurrentDirection() == direction.right)
+			gC.fillRect(pos.X(), pos.Y(), width/2, width);
+		if(CurrentDirection() == direction.up)
+			gC.fillRect(pos.X(), pos.Y() + width/2, width, width/2);
+		else if(CurrentDirection() == direction.down)
+			gC.fillRect(pos.X(), pos.Y(), width, width/2);
 		
-		for (int i = bodyCoordinates.size() - 1; i >= 0; i--) {
-			PointD pos = bodyCoordinates.get(i);
+		for (int i = bodyCoordinates.size() - 2; i >= 0; i--) {
+			pos = bodyCoordinates.get(i);
 			gC.fillRect(pos.X(), pos.Y(), width, width);
 		}
+		
 	}
 	
 	private int lenght, grow;
