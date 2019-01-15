@@ -29,6 +29,4 @@ public class Object  {
 	public enum printMode {lineBreak,noLinebreak};
 	private String objectName = String.format("Object(%d)", id);
 	private static int id = 1;
-	
-	// Trash methods. Just ignore.
 }
