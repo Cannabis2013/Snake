@@ -234,20 +234,19 @@ public class LevelObject extends View {
 	
 	public void draw()
 	{
-		GraphicsContext gC = P.getPainter();
 		
 		// Draw background color
 		
 		//Draw border
-		gC.setFill(Color.BROWN);
-		gC.fillRoundRect(translateX(0) - borderWidth, translateY(0) - borderWidth, columns*BlockSize() + borderWidth*2, gridHeight() + borderWidth*2,30,30);
-		gC.setFill(Color.DARKGREEN);
-		gC.fillRect(translateX(0), translateY(0), columns*BlockSize(), gridHeight());
+		painter.setFill(Color.BROWN);
+		painter.fillRoundRect(translateX(0) - borderWidth, translateY(0) - borderWidth, columns*BlockSize() + borderWidth*2, gridHeight() + borderWidth*2,30,30);
+		painter.setFill(Color.DARKGREEN);
+		painter.fillRect(translateX(0), translateY(0), columns*BlockSize(), gridHeight());
 		
 		for (int i = 0; i <= columns; i++)
-			gC.strokeLine(translateX(i), translateY(0), translateX(i), lastColumn()+BlockSize());
+			painter.strokeLine(translateX(i), translateY(0), translateX(i), lastColumn()+BlockSize());
 		for (int i = 0; i <= rows; i++) {
-			gC.strokeLine(translateX(0), translateY(i), lastRow() + BlockSize(), translateY(i));
+			painter.strokeLine(translateX(0), translateY(i), lastRow() + BlockSize(), translateY(i));
 		}
 	}
 	

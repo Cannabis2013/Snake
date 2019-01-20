@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 public class MainView extends View{
 	public  MainView(Dimension size,int gridRows, int gridColumns) 
 	{
+		super();
 		//setFixedSize(size.getWidth(), size.getHeight());
 		setBackgroundColor(Color.DARKBLUE);
 		setFullScreen(true);

@@ -42,18 +42,15 @@ public class View extends Object{
 	
 	public View(View parent) {
 		
-		drawBoard = new Canvas();
-		mainScene = new Scene(new Pane());
-		painter = drawBoard.getGraphicsContext2D();
+		drawBoard = null;
+		mainScene = null;
 		backgroundImage = null;
 		children = new ArrayList<>();
+		
+		painter = parent.getPainter();
 		P = parent;
 		P.addChild(this);
 		
-		paintUpdate();
-		setupInputEventHandlers();
-		setupResizeEvents();
-		defaultLocation();
 	}
 	public View(Pane layout)
 	{
@@ -433,7 +430,7 @@ public class View extends Object{
 	protected Image backgroundImage;
 	protected View P;
 	private myStage mainStage = new myStage();
-	private GraphicsContext painter;
+	protected GraphicsContext painter;
 	private Scene mainScene;
 	private List<View> children;
 	private Color backgroundColor;
